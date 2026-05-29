@@ -1,90 +1,87 @@
-import { useState, useEffect, useRef } from 'react';
-import type { FateTypingState, EnvParamsTypingState, EnvData } from '../types';
+import { useEffect, useRef, useState } from 'react';
+import type { EnvData, EnvParamsTypingState, FateTypingState } from '../types';
 
-/**
- * Fate text typing effect — alternates between English and Chinese text
- */
+type TimeoutId = ReturnType<typeof setTimeout>;
+
+const typeString = (
+  value: string,
+  delay: number,
+  update: React.Dispatch<React.SetStateAction<string>>,
+  timeouts: TimeoutId[],
+  done?: () => void,
+) => {
+  const step = (index: number) => {
+    if (index < value.length) {
+      update(prev => prev + value[index]);
+      timeouts.push(setTimeout(() => step(index + 1), delay));
+      return;
+    }
+    done?.();
+  };
+  step(0);
+};
+
+const deleteString = (
+  value: string,
+  delay: number,
+  update: React.Dispatch<React.SetStateAction<string>>,
+  timeouts: TimeoutId[],
+  done?: () => void,
+) => {
+  const step = (remaining: string) => {
+    if (remaining.length > 0) {
+      update(prev => prev.slice(0, -1));
+      timeouts.push(setTimeout(() => step(remaining.slice(0, -1)), delay));
+      return;
+    }
+    done?.();
+  };
+  step(value);
+};
+
 export function useFateTypingEffect(textVisible: boolean): FateTypingState {
   const [displayedFateText, setDisplayedFateText] = useState('');
   const [isFateTypingActive, setIsFateTypingActive] = useState(false);
 
   useEffect(() => {
-    if (textVisible) {
-      const englishText = "Stuffing data science, musical expression, and hardware experiments into the archive";
-      const chineseText = "正在把数据科学、音乐表达和硬件实验塞进同一个档案库";
-      const typingDelay = 80;
-      const deleteDelay = 50;
-      const chineseTypingDelay = 150;
-      const chineseDeleteDelay = 100;
-      const pauseAfterType = 1500;
-      const pauseAfterDelete = 500;
+    if (!textVisible) return;
 
-      let timeouts = [];
-      setIsFateTypingActive(true);
+    const timeouts: TimeoutId[] = [];
+    const englishText = 'Stuffing data science, musical expression, and hardware experiments into the archive';
+    const chineseText = '正在把数据科学、音乐表达和硬件实验塞进同一个档案库';
 
-      const typeString = (str, index, delay, callback) => {
-        if (index < str.length) {
-          setDisplayedFateText(prev => prev + str[index]);
-          const timeoutId = setTimeout(() => typeString(str, index + 1, delay, callback), delay);
-          timeouts.push(timeoutId);
-        } else if (callback) {
-          const timeoutId = setTimeout(callback, 0);
-          timeouts.push(timeoutId);
-        }
-      };
+    setIsFateTypingActive(true);
 
-      const deleteString = (currentStr, delay, callback) => {
-        if (currentStr.length > 0) {
-          setDisplayedFateText(prev => prev.slice(0, -1));
-          const timeoutId = setTimeout(() => deleteString(currentStr.slice(0, -1), delay, callback), delay);
-          timeouts.push(timeoutId);
-        } else if (callback) {
-          const timeoutId = setTimeout(callback, 0);
-          timeouts.push(timeoutId);
-        }
-      };
+    const sequence = () => {
+      typeString(englishText, 80, setDisplayedFateText, timeouts, () => {
+        timeouts.push(setTimeout(() => {
+          deleteString(englishText, 50, setDisplayedFateText, timeouts, () => {
+            timeouts.push(setTimeout(() => {
+              typeString(chineseText, 150, setDisplayedFateText, timeouts, () => {
+                timeouts.push(setTimeout(() => {
+                  deleteString(chineseText, 100, setDisplayedFateText, timeouts, () => {
+                    timeouts.push(setTimeout(sequence, 500));
+                  });
+                }, 1500));
+              });
+            }, 500));
+          });
+        }, 1500));
+      });
+    };
 
-      const sequence = () => {
-        typeString(englishText, 0, typingDelay, () => {
-          const timeoutId1 = setTimeout(() => {
-            deleteString(englishText, deleteDelay, () => {
-              const timeoutId2 = setTimeout(() => {
-                typeString(chineseText, 0, chineseTypingDelay, () => {
-                  const timeoutId3 = setTimeout(() => {
-                    deleteString(chineseText, chineseDeleteDelay, () => {
-                      const timeoutId4 = setTimeout(() => {
-                        sequence();
-                      }, pauseAfterDelete);
-                      timeouts.push(timeoutId4);
-                    });
-                  }, pauseAfterType);
-                  timeouts.push(timeoutId3);
-                });
-              }, pauseAfterDelete);
-              timeouts.push(timeoutId2);
-            });
-          }, pauseAfterType);
-          timeouts.push(timeoutId1);
-        });
-      };
+    sequence();
 
-      sequence();
-
-      return () => {
-        timeouts.forEach(clearTimeout);
-        setDisplayedFateText('');
-        setIsFateTypingActive(false);
-        timeouts = [];
-      };
-    }
+    return () => {
+      timeouts.forEach(clearTimeout);
+      setDisplayedFateText('');
+      setIsFateTypingActive(false);
+    };
   }, [textVisible]);
 
   return { displayedFateText, isFateTypingActive };
 }
 
-/**
- * Environment parameters typing effect — generates and types random env data
- */
 export function useEnvParamsTypingEffect(textVisible: boolean): EnvParamsTypingState {
   const [displayedEnvParams, setDisplayedEnvParams] = useState('');
   const [isEnvParamsTyping, setIsEnvParamsTyping] = useState(false);
@@ -94,104 +91,66 @@ export function useEnvParamsTypingEffect(textVisible: boolean): EnvParamsTypingS
   const lastGeneratedParamsRef = useRef('');
 
   useEffect(() => {
-    if (textVisible) {
-      const typingDelay = 35;
-      const envDeleteDelay = 20;
+    if (!textVisible) return;
 
-      let timeouts = [];
-      setIsEnvParamsTyping(true);
+    const timeouts: TimeoutId[] = [];
+    setIsEnvParamsTyping(true);
 
-      const typeString = (str, index, delay, callback) => {
-        if (index < str.length) {
-          setDisplayedEnvParams(prev => prev + str[index]);
-          const timeoutId = setTimeout(() => typeString(str, index + 1, delay, callback), delay);
-          timeouts.push(timeoutId);
-        } else if (callback) {
-          const timeoutId = setTimeout(callback, 0);
-          timeouts.push(timeoutId);
-        }
-      };
+    const generateNewParams = () => {
+      const tempChange = (Math.random() * 3) - 1.5;
+      const newTemp = Math.max(44, Math.min(66, currentTempRef.current + tempChange));
+      currentTempRef.current = newTemp;
 
-      const deleteEnvParamsString = (currentStr, delay, callback) => {
-        if (currentStr.length > 0) {
-          setDisplayedEnvParams(prev => prev.slice(0, -1));
-          const timeoutId = setTimeout(() => deleteEnvParamsString(currentStr.slice(0, -1), delay, callback), delay);
-          timeouts.push(timeoutId);
-        } else if (callback) {
-          const timeoutId = setTimeout(callback, 0);
-          timeouts.push(timeoutId);
-        }
-      };
+      const rad = Math.floor(200 + Math.random() * 300);
+      const o2 = (8 + Math.random() * 2).toFixed(1);
+      const pollutionLevels = ['SEVERE', 'CRITICAL', 'UNSTABLE', 'HAZARDOUS'];
+      const rainStatus = ['IMMINENT', 'LIKELY', 'UNLIKELY', 'CERTAIN'];
+      const warnings = [
+        'ALERT: TOXIC EXPOSURE RISK',
+        'CAUTION: RADIATION STORM',
+        'DANGER: ACID ZONES EXPANDING',
+        'URGENT: OXYGEN DEPLETION',
+      ];
 
-      const generateNewParams = () => {
-        const tempChange = (Math.random() * 3) - 1.5;
-        let newTemp = currentTempRef.current + tempChange;
-        newTemp = Math.max(44, Math.min(66, newTemp));
-        currentTempRef.current = newTemp;
-        const tempStr = newTemp.toFixed(1);
+      const pollution = pollutionLevels[Math.floor(Math.random() * pollutionLevels.length)];
+      const acidRain = rainStatus[Math.floor(Math.random() * rainStatus.length)];
+      const warningLine = Math.random() > 0.5
+        ? `\n${warnings[Math.floor(Math.random() * warnings.length)]}`
+        : '';
 
-        const rad = Math.floor(200 + Math.random() * 300);
-        const o2 = (8 + Math.random() * 2).toFixed(1);
+      setEnvData({ temp: newTemp, rad, o2: parseFloat(o2), pollution, acidRain });
+      setEnvDataVersion(prev => prev + 1);
 
-        const pollutionLevels = ["SEVERE", "CRITICAL", "UNSTABLE", "HAZARDOUS"];
-        const pollution = pollutionLevels[Math.floor(Math.random() * pollutionLevels.length)];
+      return `TEMP: ${newTemp.toFixed(1)}°C\nRAD: ${rad}mSv/h\nO2: ${o2}%\nPOLLUTION: ${pollution}\nACID RAIN: ${acidRain}${warningLine}`;
+    };
 
-        const rainStatus = ["IMMINENT", "LIKELY", "UNLIKELY", "CERTAIN"];
-        const rain = rainStatus[Math.floor(Math.random() * rainStatus.length)];
+    const generateAndType = () => {
+      const newParams = generateNewParams();
+      lastGeneratedParamsRef.current = newParams;
+      typeString(newParams, 35, setDisplayedEnvParams, timeouts, () => {
+        timeouts.push(setTimeout(startTyping, 8000 + Math.floor(Math.random() * 7000)));
+      });
+    };
 
-        const warnings = [
-          "ALERT: TOXIC EXPOSURE RISK",
-          "CAUTION: RADIATION STORM",
-          "DANGER: ACID ZONES EXPANDING",
-          "URGENT: OXYGEN DEPLETION"
-        ];
-        const randomWarning = warnings[Math.floor(Math.random() * warnings.length)];
-        const warningLine = Math.random() > 0.5 ? `\n${randomWarning}` : '';
+    const startTyping = () => {
+      const textToDelete = lastGeneratedParamsRef.current;
+      if (textToDelete.length > 0) {
+        deleteString(textToDelete, 20, setDisplayedEnvParams, timeouts, generateAndType);
+      } else {
+        generateAndType();
+      }
+    };
 
-        setEnvData({ temp: newTemp, rad, o2: parseFloat(o2), pollution, acidRain: rain });
-        setEnvDataVersion(prev => prev + 1);
+    timeouts.push(setTimeout(startTyping, 1000));
 
-        return `TEMP: ${tempStr}°C\nRAD: ${rad}mSv/h\nO2: ${o2}%\nPOLLUTION: ${pollution}\nACID RAIN: ${rain}${warningLine}`;
-      };
-
-      const generateAndType = () => {
-        const newParams = generateNewParams();
-        lastGeneratedParamsRef.current = newParams;
-        typeString(newParams, 0, typingDelay, () => {
-          const updateTime = 8000 + Math.floor(Math.random() * 7000);
-          const restartTimeout = setTimeout(() => {
-            startTyping();
-          }, updateTime);
-          timeouts.push(restartTimeout);
-        });
-      };
-
-      const startTyping = () => {
-        const textToDelete = lastGeneratedParamsRef.current;
-
-        if (textToDelete.length > 0) {
-          deleteEnvParamsString(textToDelete, envDeleteDelay, () => {
-            generateAndType();
-          });
-        } else {
-          generateAndType();
-        }
-      };
-
-      const initialDelay = setTimeout(() => {
-        startTyping();
-      }, 1000);
-      timeouts.push(initialDelay);
-
-      return () => {
-        timeouts.forEach(clearTimeout);
-        setDisplayedEnvParams('');
-        setIsEnvParamsTyping(false);
-        setEnvData(null);
-        setEnvDataVersion(0);
-        lastGeneratedParamsRef.current = '';
-      };
-    }
+    return () => {
+      timeouts.forEach(clearTimeout);
+      setDisplayedEnvParams('');
+      setIsEnvParamsTyping(false);
+      setEnvData(null);
+      setEnvDataVersion(0);
+      lastGeneratedParamsRef.current = '';
+    };
   }, [textVisible]);
 
   return { displayedEnvParams, isEnvParamsTyping, envData, envDataVersion };

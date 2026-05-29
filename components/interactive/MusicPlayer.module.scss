@@ -561,3 +561,24 @@
     cursor: auto;
   }
 } 
+
+.playerContainer {
+  font-family: var(--font-hud), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.handleTrackTitle,
+.trackTitle,
+.playlistItemTitle,
+.playlistItemArtist {
+  font-family: var(--font-hud), 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.trackTitle,
+.playlistItemTitle {
+  font-weight: 500;
+}
+
+.playlistItemArtist {
+  letter-spacing: 0.03em;
+}

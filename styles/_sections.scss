@@ -189,14 +189,15 @@
 // --- 项目卡片样式 ---
 .projectCard {
   background-color: rgba(var(--ark-secondary-rgb), 0.1);
-  border: 1px solid var(--ark-border); 
+  border: 1px solid rgba(180, 180, 180, 0.22);
   padding: 15px;
   position: relative;
   transition: all 0.3s ease;
   overflow: hidden;
   cursor: default;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: rgba(var(--ark-secondary-rgb), 0.18);
     border-color: var(--ark-primary);
     transform: translateY(-5px);
@@ -207,6 +208,7 @@
       opacity: 1;
       width: 30px;
       height: 30px;
+      border-color: var(--ark-primary);
     }
     
     .projectImagePlaceholder {
@@ -219,6 +221,22 @@
       background-color: var(--ark-primary);
       color: var(--ark-dark-blue);
     }
+
+    .projectTitle,
+    .projectYear,
+    .techTag,
+    .titleBracket {
+      color: var(--ark-primary);
+    }
+
+    .projectYear,
+    .techTag {
+      border-color: rgba(var(--ark-primary-rgb), 0.35);
+    }
+
+    .techTag {
+      background-color: rgba(var(--ark-primary-rgb), 0.15);
+    }
   }
 }
 
@@ -229,7 +247,7 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  border-color: var(--ark-primary);
+  border-color: rgba(180, 180, 180, 0.35);
   border-style: solid;
   border-width: 0;
   opacity: 0.6;
@@ -297,7 +315,7 @@
   font-family: var(--font-hud);
   font-size: var(--fs-lg);
   font-weight: bold;
-  color: var(--ark-primary);
+  color: rgba(210, 210, 210, 0.82);
   margin-top: 0;
   margin-bottom: 10px;
   letter-spacing: 1px;
@@ -305,7 +323,7 @@
 }
 
 .titleBracket {
-  color: var(--ark-border); 
+  color: rgba(180, 180, 180, 0.35);
   opacity: 0.7;
   font-weight: normal;
   margin: 0 5px;
@@ -338,9 +356,9 @@
 }
 
 .projectYear {
-  color: var(--ark-primary);
+  color: rgba(190, 190, 190, 0.75);
   opacity: 0.8;
-  border: 1px solid rgba(var(--ark-primary-rgb), 0.3);
+  border: 1px solid rgba(180, 180, 180, 0.25);
   padding: 1px 6px;
 }
 
@@ -423,8 +441,9 @@
 }
 
 .techTag {
-  background-color: rgba(var(--ark-primary-rgb), 0.15); 
-  color: var(--ark-primary); 
+  background-color: rgba(180, 180, 180, 0.09);
+  color: rgba(205, 205, 205, 0.72);
+  border: 1px solid rgba(180, 180, 180, 0.12);
   font-family: var(--font-mono); 
   font-size: var(--fs-base); // Increased
   padding: 4px 10px;
@@ -440,9 +459,9 @@
   display: inline-block;
   font-family: var(--font-hud);
   font-size: var(--fs-caption);
-  color: var(--ark-primary);
+  color: rgba(205, 205, 205, 0.78);
   text-decoration: none;
-  border: 1px solid var(--ark-primary);
+  border: 1px solid rgba(180, 180, 180, 0.35);
   padding: 6px 12px;
   transition: background-color 0.3s, color 0.3s;
   text-transform: uppercase;

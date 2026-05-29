@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Replace with your actual domain
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://info.reliarc.com/sitemap.xml
