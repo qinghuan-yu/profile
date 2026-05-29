@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "build:cloudflare": "cross-env NEXT_PUBLIC_STATIC_EXPORT=true NEXT_PUBLIC_SITE_URL=https://info.reliarc.com NEXT_BUILD_DIR=.next-cloudflare next build",
+    "build:cloudflare": "cross-env NEXT_PUBLIC_STATIC_EXPORT=true NEXT_PUBLIC_SITE_URL=https://info.reliarc.com NEXT_BUILD_DIR=out next build",
     "start": "cross-env NODE_ENV=production node server.js",
     "lint": "next lint"
   },
