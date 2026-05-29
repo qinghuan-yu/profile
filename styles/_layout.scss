@@ -1233,12 +1233,12 @@
       background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(178, 242, 187, 0.02) 15%,
-        rgba(178, 242, 187, 0.06) 35%,
-        rgba(178, 242, 187, 0.15) 55%,
-        rgba(178, 242, 187, 0.4) 78%,
+        rgba(24, 200, 238, 0.02) 15%,
+        rgba(24, 200, 238, 0.06) 35%,
+        rgba(24, 200, 238, 0.15) 55%,
+        rgba(24, 200, 238, 0.4) 78%,
         var(--ark-highlight-green) 95%,
-        rgba(178, 242, 187, 0.6) 100%
+        rgba(24, 200, 238, 0.6) 100%
       );
       filter: drop-shadow(0 0 3px var(--ark-highlight-green));
       animation: scanBottomBar 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
@@ -1280,7 +1280,7 @@
 
   &:active {
     transform: scale(0.92);
-    background: rgba(178, 242, 187, 0.08);
+    background: rgba(24, 200, 238, 0.08);
     color: var(--ark-highlight-green);
     text-shadow: 0 0 8px var(--ark-highlight-green);
   }

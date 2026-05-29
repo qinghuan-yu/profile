@@ -48,15 +48,17 @@
   --transition-medium: 0.5s cubic-bezier(0.6, 0.05, 0.01, 0.9);
   --transition-fast: 0.3s cubic-bezier(0.6, 0.05, 0.01, 0.9);
 
-  --ark-primary: rgba(200, 200, 200, 0.8);
-  --ark-primary-glow: rgba(150, 150, 150, 0.5);
-  --ark-accent: rgba(220, 220, 220, 1);
+  --ark-primary: #18c8ee;
+  --ark-primary-rgb: 24, 200, 238;
+  --ark-primary-glow: rgba(24, 200, 238, 0.45);
+  --ark-accent: rgba(92, 220, 248, 1);
   --ark-dark-blue: #1a1a1a;
-  --ark-border: rgba(255, 255, 255, 0.15);
+  --ark-border: rgba(24, 200, 238, 0.22);
   --ark-text: rgba(230, 230, 230, 0.9);
   --ark-bg-dark: #1a1a1a;
-  --ark-highlight: rgba(255, 255, 255, 0.85);
-  --ark-highlight-green: #b2f2bb;
+  --ark-highlight: rgba(24, 200, 238, 0.85);
+  --ark-highlight-green: #18c8ee;
+  --ark-highlight-green-rgb: 24, 200, 238;
 
   // --- 响应式布局变量 ---
   --font-size-base: clamp(13px, 0.5vw + 11px, 18px);
