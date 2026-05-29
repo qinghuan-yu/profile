@@ -1,0 +1,63 @@
+import { useEffect } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import styles from '../styles/Home.module.scss';
+import { useApp } from '../contexts/AppContext';
+import { useTransition } from '../contexts/TransitionContext';
+import NavigationColumns from '../components/layout/NavigationColumns';
+
+export default function Home() {
+  const router = useRouter();
+  const { navigateTo } = useTransition();
+  const {
+    linesAnimated, pulsingNormalIndices, pulsingReverseIndices,
+    textVisible, animationsComplete, isInverted, columnPhase,
+    randomHudTexts, branchText1, branchText2, branchText3, branchText4,
+    handleColumnMouseEnter, handleColumnMouseLeave,
+  } = useApp();
+
+  useEffect(() => {
+    router.prefetch('/content');
+  }, [router]);
+
+  const handleColumnClick = (columnIndex: number) => {
+    if (!animationsComplete) return;
+
+    const sectionHashes = ['works', 'experience', 'contact', 'about'];
+    if (columnIndex < sectionHashes.length) {
+      navigateTo(`/content#${sectionHashes[columnIndex]}`);
+    }
+  };
+
+  return (
+    <>
+      <Head>
+        <title>Qing-UU // Personal Node</title>
+        <meta name="description" content="Qing-UU 的个人档案库：数据科学、前端交互、音乐表达和硬件实验。" />
+        <meta property="og:title" content="Qing-UU // Personal Node" />
+        <meta property="og:description" content="数据科学、前端交互、音乐表达和硬件实验。" />
+        <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL || 'https://qinghuan-yu.github.io'} />
+      </Head>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+        <NavigationColumns
+          activeSection="home"
+          linesAnimated={linesAnimated}
+          pulsingNormalIndices={pulsingNormalIndices}
+          pulsingReverseIndices={pulsingReverseIndices}
+          textVisible={textVisible}
+          animationsComplete={animationsComplete}
+          isInverted={isInverted}
+          columnPhase={columnPhase}
+          randomHudTexts={randomHudTexts}
+          branchText1={branchText1}
+          branchText2={branchText2}
+          branchText3={branchText3}
+          branchText4={branchText4}
+          handleColumnClick={handleColumnClick}
+          handleColumnMouseEnter={handleColumnMouseEnter}
+          handleColumnMouseLeave={handleColumnMouseLeave}
+        />
+      </div>
+    </>
+  );
+}

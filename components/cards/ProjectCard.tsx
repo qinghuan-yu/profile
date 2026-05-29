@@ -1,0 +1,79 @@
+import React from 'react';
+import styles from '../../styles/Home.module.scss';
+
+const ProjectCard = ({ project, onClick }) => {
+  const { title, description, tech, link, role, year, isConfidential, liveUrl } = project;
+
+  const handleCardClick = (e) => {
+    if (onClick) {
+      onClick(project, e);
+    } else if (link && link !== '#') {
+      window.open(link, '_blank', 'noopener noreferrer');
+    }
+  };
+
+  const isClickable = !!onClick || (link && link !== '#');
+
+  return (
+    <div
+      className={`${styles.projectCard} ${isClickable ? styles.clickable : ''} ${isConfidential ? styles.confidentialCard : ''}`}
+      onClick={isClickable ? handleCardClick : undefined}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      data-cursor-no-magnetic
+      onKeyDown={isClickable ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleCardClick(e);
+        }
+      } : undefined}
+    >
+      <div className={styles.cardBorderTopLeft}></div>
+      <div className={styles.cardBorderBottomRight}></div>
+
+      <div className={styles.projectContent}>
+        {(role || year) && (
+          <div className={styles.projectMeta}>
+            {year && <span className={styles.projectYear}>{year}</span>}
+            {role && <span className={styles.projectRole}>{role}</span>}
+          </div>
+        )}
+        <h3 className={styles.projectTitle}>
+          <span className={styles.titleBracket}>[</span>{title}<span className={styles.titleBracket}>]</span>
+        </h3>
+        <p className={styles.projectDescription}>{description}</p>
+        <div className={styles.projectTech}>
+          {tech.map((item, index) => (
+            <span key={index} className={styles.techTag}>{item}</span>
+          ))}
+        </div>
+      </div>
+
+      {liveUrl && (
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.projectLink}
+          onClick={(e) => e.stopPropagation()}
+          data-cursor-magnetic
+        >
+          Visit
+        </a>
+      )}
+      {!liveUrl && !onClick && link && link !== '#' && (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.projectLink}
+          onClick={(e) => e.stopPropagation()}
+          data-cursor-magnetic
+        >
+          Visit
+        </a>
+      )}
+    </div>
+  );
+};
+
+export default React.memo(ProjectCard);
