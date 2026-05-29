@@ -20,14 +20,19 @@ const NextIcon = () => <svg viewBox="0 0 10 10" width="10" height="10">
 // Place audio files in public/music/ or use external URLs.
 const playlist = [
   {
-    title: "からっぽの星で",
-    artist: "Qing-UU",
-    src: "/music/からっぽの星で.mp3"
+    title: "如我所见",
+    artist: "塞壬唱片-MSR",
+    src: "/music/如我所见 by 塞壬唱片-MSR.mp3"
   },
   {
-    title: "走り出した朝に",
-    artist: "Qing-UU",
-    src: "/music/走り出した朝に.mp3"
+    title: "生命流",
+    artist: "塞壬唱片-MSR",
+    src: "/music/生命流 by 塞壬唱片-MSR.mp3"
+  },
+  {
+    title: "Epilogue",
+    artist: "塞壬唱片-MSR",
+    src: "/music/Epilogue by 塞壬唱片-MSR.mp3"
   },
 ];
 
