@@ -3,7 +3,7 @@ import type { Project } from '../types';
 export const webProjects: Project[] = [
   {
     id: 1,
-    title: 'GIF 播放器 / GIF-PLAYER',
+    title: 'GIF-PLAYER',
     description: '基于 ESP-32 和 TFT 显示屏的便携式 GIF 播放器，支持多种动画格式和自定义播放列表。',
     role: 'Hardware / Embedded UI',
     year: '2026',
@@ -22,7 +22,7 @@ export const webProjects: Project[] = [
   },
   {
     id: 2,
-    title: 'Vue 钢琴 / VUE-PIANO',
+    title: 'VUE-PIANO',
     description: '基于 Vue.js 构建的交互式虚拟钢琴，内含天际线算法提取主旋律，可转化为 token 进行训练。',
     role: 'Frontend / Music Interaction',
     year: '2025',
@@ -41,7 +41,7 @@ export const webProjects: Project[] = [
   },
   {
     id: 3,
-    title: '演奏分析 / PIANALYSIS',
+    title: 'PIANALYSIS',
     description: '基于 Transformer 框架的深度学习钢琴音色补全方法，可使用训练好的模型对 MIDI 文件进行织体补全。',
     role: 'Machine Learning / Music AI',
     year: '2025',
@@ -60,10 +60,10 @@ export const webProjects: Project[] = [
   },
   {
     id: 4,
-    title: '日记日历 / DIARY CALENDAR',
+    title: 'Minimalist-Calendar',
     description: '一个基于 Vue 和 Electron 的日记日历工具。',
     role: 'Desktop App',
-    year: '2024',
+    year: '2026',
     status: 'shipped',
     tech: ['Vue', 'Electron', 'Calendar', 'Diary'],
     highlights: ['桌面日记工具', '日历视图', '本地化记录体验'],
@@ -77,27 +77,10 @@ export const webProjects: Project[] = [
   },
   {
     id: 5,
-    title: '个人网页 / PERSONAL INTRO',
-    description: '一个基于 Vue 的个人网页。',
-    role: 'Personal Site',
-    year: '2024',
-    status: 'shipped',
-    tech: ['Vue', 'Portfolio', 'Frontend'],
-    highlights: ['个人介绍页', 'Vue 实践', '视觉表达实验'],
-    link: 'https://github.com/qinghuan-yu/vue-persenal-Intro',
-    liveUrl: 'https://github.com/qinghuan-yu/vue-persenal-Intro',
-    imageUrl: '',
-    galleryImages: [],
-    articleContent: `一个基于 Vue 的个人网页项目，用来整理个人介绍、作品入口和视觉表达。
-
-[GitHub](https://github.com/qinghuan-yu/vue-persenal-Intro)`,
-  },
-  {
-    id: 6,
     title: 'MCMer',
     description: '面向数学建模、数据分析和竞赛实验记录的项目档案。',
     role: 'Data Science / Modeling',
-    year: '2025',
+    year: '2026',
     status: 'wip',
     tech: ['Python', 'Modeling', 'Data Analysis', 'MCM'],
     highlights: ['数学建模流程整理', '数据分析实验', '竞赛项目归档'],
@@ -111,11 +94,11 @@ export const webProjects: Project[] = [
 [GitHub](https://github.com/qinghuan-yu/MCMer)`,
   },
   {
-    id: 7,
+    id: 6,
     title: 'Dialograph',
     description: '一个探索对话结构、关系建模与图式交互的信息组织项目。',
     role: 'Frontend / Graph Interaction',
-    year: '2025',
+    year: '2026',
     status: 'wip',
     tech: ['Graph', 'Dialogue', 'Interaction', 'Frontend'],
     highlights: ['对话结构探索', '图关系建模', '交互式信息组织'],
