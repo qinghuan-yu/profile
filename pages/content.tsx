@@ -115,7 +115,7 @@ export default function ContentPage() {
 
   // --- Contact handlers ---
   const handleCopyEmail = useCallback(() => {
-    navigator.clipboard.writeText('Reliarc.me@outlook.com').then(() => {
+    navigator.clipboard.writeText('reliarc.yu@gmail.com').then(() => {
       setIsEmailCopied(true);
       setTimeout(() => setIsEmailCopied(false), 1500);
     }).catch(err => console.error('Failed to copy email:', err));

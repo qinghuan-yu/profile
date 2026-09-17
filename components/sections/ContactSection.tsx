@@ -29,7 +29,7 @@ export default function ContactSection({
           </svg>
         </div>
         <div className={styles.contactIconRipple}></div>
-        <span className={styles.emailText}>Reliarc.me@outlook.com</span>
+        <span className={styles.emailText}>reliarc.yu@gmail.com</span>
         {isEmailCopied && <span className={styles.copyFeedback}>Copied!</span>}
       </button>
 

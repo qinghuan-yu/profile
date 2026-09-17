@@ -1,12 +1,4 @@
 @font-face {
-  font-family: 'Dosis';
-  src: url('/fonts/Dosis/Dosis-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'ZeldaFont';
   src: url('/fonts/ZELDA Free.otf') format('opentype');
   font-weight: normal;
@@ -429,7 +421,7 @@
 
 .text_progress_container {
   position: relative;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 1.1rem; /* Match log_text exactly */
   letter-spacing: normal; /* Match log_text normal tracking */
   line-height: 1.6; /* Match log_text */
@@ -466,6 +458,31 @@
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
+}
+
+.bootProgressLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 16px;
+  font: 11px / 1.5 var(--font-mono);
+  letter-spacing: 0.12em;
+  color: #a7b8bb;
+  > span:last-child { color: #d6e2e4; font-size: 24px; letter-spacing: -0.04em; }
+  small { color: #75898c; font-size: 11px; }
+}
+
+.bootProgressTrack {
+  height: 2px;
+  background: rgba(170, 199, 201, 0.16);
+  overflow: hidden;
+  > div {
+    height: 100%;
+    background: #83c8d0;
+    transform-origin: left;
+    transition: transform 0.15s linear;
+  }
 }
 
 // ===== Console output =====
@@ -505,7 +522,7 @@
   flex-grow: 1;
   padding: 0 5px 0 0;
   overflow-y: hidden;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 1.1rem; /* Increased 10% from 1.0rem */
   position: relative;
   color: rgba(24, 200, 238, 0.72);
@@ -525,6 +542,10 @@
   opacity: 0;
   position: relative;
   z-index: 4;
+  min-height: 28px;
+
+  &:nth-last-child(n + 5) .log_text { color: #687a7d; }
+  &:nth-last-child(2) .log_text { color: #a2d2d8; }
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);
@@ -544,16 +565,16 @@
 }
 
 .log_text {
-  color: rgba(24, 200, 238, 0.72);
+  color: #bcc9ca;
   line-height: 1.6;
   overflow: hidden;
   white-space: nowrap;
   animation: typing 0.3s steps(30, end);
   user-select: none;
-  font-size: 1.1rem; /* Increased 10% from 1.0rem */
+  font-size: 0.85rem;
 
   &::after {
-    content: '_';
+    content: none;
     display: inline-block;
     opacity: 1;
     animation: blink 0.7s steps(2, start) infinite;

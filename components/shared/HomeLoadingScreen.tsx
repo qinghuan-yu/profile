@@ -46,6 +46,7 @@ const HomeLoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
       if (consoleRef.current?.container) gsap.set(consoleRef.current.container, { opacity: 1 });
       gsap.set(progressAreaRef.current, { opacity: 1, y: 0 });
       logoRef.current?.animateIn(0);
+      setStartLogging(true);
       return () => {};
     }
 
@@ -69,10 +70,10 @@ const HomeLoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
         // Call HUD animations
         hudRef.current?.initAnimations();
       }, [], 0.5)
-      .to(logoRef.current?.container || null, { opacity: 0.15, duration: 1.0, ease: 'power2.inOut' }, 3.5)
-      .to(consoleRef.current?.container || null, { opacity: 1, duration: 0.7, ease: 'none' }, 3.5)
-      .to(progressAreaRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 3.5)
-      .call(() => setStartLogging(true), [], 4.0); // Start logging after logo dims and console appears
+      .to(logoRef.current?.container || null, { opacity: 0.15, duration: 0.6, ease: 'power2.inOut' }, 1.1)
+      .to(consoleRef.current?.container || null, { opacity: 1, duration: 0.5, ease: 'none' }, 1.1)
+      .to(progressAreaRef.current, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 1.1)
+      .call(() => setStartLogging(true), [], 1.4);
 
     return () => {
       timelines.forEach(tl => tl.kill());
@@ -88,7 +89,7 @@ const HomeLoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
 
   // ===================== Exit animation (reveal wipe) =====================
   useEffect(() => {
-    if (loading) return;
+    if (loading || !wastelandBgRef.current || !loadingScreenRef.current) return;
 
     if (onCompleteRef.current) onCompleteRef.current();
 
@@ -140,17 +141,12 @@ const HomeLoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
         </div>
 
         <div ref={progressAreaRef} className={styles.progress_area} style={{ opacity: 0, transform: 'translateY(15px)' }}>
-          <div className={styles.text_progress_container}>
-            <div className={styles.text_progress_base}>
-              <span className={styles.progress_prefix}>&gt; SYSTEM INITIALIZING... [</span>
-              <span className={styles.progress_bar_chars}>{"/".repeat(300)}</span>
-              <span className={styles.progress_suffix}>] {Math.floor(progress).toString().padStart(3, ' ')}%</span>
-            </div>
-            <div className={styles.text_progress_fill} style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }}>
-              <span className={styles.progress_prefix}>&gt; SYSTEM INITIALIZING... [</span>
-              <span className={styles.progress_bar_chars}>{"/".repeat(300)}</span>
-              <span className={styles.progress_suffix}>] {Math.floor(progress).toString().padStart(3, ' ')}%</span>
-            </div>
+          <div className={styles.bootProgressLabel}>
+            <span>PREPARING YOUR EXPERIENCE</span>
+            <span>{Math.floor(progress).toString().padStart(2, '0')}<small> / 100</small></span>
+          </div>
+          <div className={styles.bootProgressTrack} role="progressbar" aria-label="页面加载进度" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.floor(progress)}>
+            <div style={{ transform: `scaleX(${progress / 100})` }} />
           </div>
         </div>
       </div>

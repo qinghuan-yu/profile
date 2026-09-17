@@ -29,7 +29,7 @@ const TerminalConsole = forwardRef<TerminalConsoleRef, TerminalConsoleProps>(({ 
         <span className={styles.header_title}>SYSTEM LOG</span>
       </div>
       <div className={styles.console_content} ref={contentRef}>
-        {logLines.map(line => (
+        {logLines.slice(-6).map(line => (
           <div key={line.id} className={styles.log_line}>
             <span className={styles.log_prefix}>&gt;</span>
             <span className={styles.log_text}>{line.text}</span>

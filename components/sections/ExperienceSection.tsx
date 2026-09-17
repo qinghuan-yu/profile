@@ -8,35 +8,30 @@ export default function ExperienceSection({
   return (
     <div id="experience-section" ref={experienceSectionRef} className={`${styles.contentSection} ${styles.experienceSection}`}>
       <h2 className={styles.experienceTitleWithBackground}>EXPERIENCE</h2>
-      <div className={styles.experienceTimeline}>
+      <p className={styles.experienceIntro}>学习经历 / 从虚拟现实开发，到计算机科学。</p>
+      <div className={styles.archiveTimeline}>
         {experienceData.map((item, index) => (
-          <div
-            key={item.id}
-            className={`
-              ${styles.timelineItem}
-              ${item.alignment === 'left' ? styles.timelineItemLeft : styles.timelineItemRight}
-              ${item.type === 'education' ? styles.educationItem : ''}
-            `}
+          <button
+            type="button"
+            key={`${item.id}-${item.duration}`}
+            className={styles.archiveCard}
+            data-cursor-no-magnetic
             onClick={(e) => handleExperienceItemClick(item, e)}
           >
-            <div className={styles.timelinePoint} />
-            <div className={styles.timelineBranch} />
-            <div className={styles.timelineContent}>
-              <div className={styles.timelineHeader}>
-                <span className={styles.timelineYear}>{item.duration}</span>
-                <h3>{item.title}</h3>
-              </div>
+            <span className={styles.archiveDate}>{item.duration}<span>0{index + 1}</span></span>
+            <span className={styles.archiveSchool}>{item.title}<span>EDUCATION</span></span>
+            <span className={styles.archiveLocation}>{item.location}</span>
               {item.details && item.details.length > 0 && (
-                <div className={styles.timelineDetails}>
+                <span className={styles.archiveDetails}>
                   {item.details.map((detail, i) => (
-                    <p key={i} className={item.type === 'education' && index === 0 && (i === 0 || i === 1) ? styles.timelineNumber : ''}>
+                    <span key={i}>
                       {detail}
-                    </p>
+                    </span>
                   ))}
-                </div>
+                </span>
               )}
-            </div>
-          </div>
+            <span className={styles.archiveAction}>探索这段经历 <span aria-hidden="true">↗</span></span>
+          </button>
         ))}
       </div>
     </div>

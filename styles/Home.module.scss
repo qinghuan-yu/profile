@@ -3,6 +3,7 @@
 @import 'columns';
 @import 'sections';
 @import 'layout';
+@import 'refinements';
 
 .container {
   width: 100%;
@@ -204,7 +205,7 @@
   );
   mask-image: linear-gradient(to left, black 50%, transparent 100%);
   -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
-  opacity: 0.6;
+  opacity: 0.18;
   z-index: 1;
 
   @media (max-width: 767px) {

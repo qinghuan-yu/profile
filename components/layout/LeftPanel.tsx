@@ -33,6 +33,15 @@ export default function LeftPanel({
   return (
     <div className={`${styles.leftPanel} ${leftPanelAnimated ? styles.animated : ''} ${drawerOpen ? styles.drawerOpen : ''} ${isStandalone ? styles.standaloneHide : ''}`}>
       <div className={styles.topRightDecoration}></div>
+      <div className={`${styles.identityPanel} ${isTesseractActivated ? styles.identityMuted : ''}`}>
+        <span className={styles.identityEyebrow}>PERSONAL ARCHIVE / QING-UU</span>
+        <div className={styles.identityMonogram} aria-hidden="true">Q<span> / </span>U</div>
+        <h1 className={styles.identityName}>Ideas into<br />working things.</h1>
+        <p className={styles.identityDescription}>在数据、声音与交互之间，<br />记录探索，构建有趣的事物。</p>
+        <div className={styles.identityFields}>
+          <span>DATA SCIENCE</span><span>MUSIC & CODE</span><span>HARDWARE</span>
+        </div>
+      </div>
       <div className={styles.leverGroup}>
         {mainVisible && (
           <ActivationLever
@@ -55,6 +64,7 @@ export default function LeftPanel({
       className={`${styles.globalBackButton} ${showBackAndNav ? styles.visible : ''}`}
       onClick={handleGlobalBackClick}
       data-cursor-label="BACK"
+      aria-label="返回"
     >
     </button>
       <div className={`${styles.globalBackButtonDivider} ${showBackAndNav ? styles.visible : ''}`}></div>
