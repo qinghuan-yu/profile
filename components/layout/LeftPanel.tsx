@@ -16,8 +16,6 @@ export default function LeftPanel({
   powerLevel,
   isFateTypingActive,
   displayedFateText,
-  isEnvParamsTyping,
-  displayedEnvParams,
   isInverted,
   drawerOpen = false,
   isStandalone = false,
@@ -36,10 +34,14 @@ export default function LeftPanel({
       <div className={`${styles.identityPanel} ${isTesseractActivated ? styles.identityMuted : ''}`}>
         <span className={styles.identityEyebrow}>PERSONAL ARCHIVE / QING-UU</span>
         <div className={styles.identityMonogram} aria-hidden="true">Q<span> / </span>U</div>
-        <h1 className={styles.identityName}>Ideas into<br />working things.</h1>
-        <p className={styles.identityDescription}>在数据、声音与交互之间，<br />记录探索，构建有趣的事物。</p>
+        <h1 className={styles.identityName}>Learning<br />by making.</h1>
+        <p className={styles.identityDescription}>学习计算机科学，<br />也做一些音乐和硬件相关的尝试。</p>
         <div className={styles.identityFields}>
           <span>DATA SCIENCE</span><span>MUSIC & CODE</span><span>HARDWARE</span>
+        </div>
+        <div className={`${styles.fateTextContainer} ${isFateTypingActive ? styles.typingActive : ''}`}>
+          <span className={styles.fateText}>{displayedFateText}</span>
+          <div className={styles.fateLine}></div>
         </div>
       </div>
       <div className={styles.leverGroup}>
@@ -93,15 +95,6 @@ export default function LeftPanel({
           })}
         </div>
         <span className={styles.powerText}>{powerLevel}%</span>
-      </div>
-      <div className={`${styles.fateTextContainer} ${isFateTypingActive ? styles.typingActive : ''}`}>
-        <span className={styles.fateText}>{displayedFateText}</span>
-        <div className={styles.fateLine}></div>
-      </div>
-      <div className={`${styles.envParamsContainer} ${isEnvParamsTyping ? styles.typingActive : ''} ${leftPanelAnimated ? styles.animated : ''}`}>
-        <pre className={styles.envParamsText}>
-          {displayedEnvParams}
-        </pre>
       </div>
     
     </div>

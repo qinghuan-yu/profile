@@ -101,21 +101,6 @@ export interface FateTypingState {
   isFateTypingActive: boolean;
 }
 
-export interface EnvData {
-  temp: number;
-  rad: number;
-  o2: number;
-  pollution: string;
-  acidRain: string;
-}
-
-export interface EnvParamsTypingState {
-  displayedEnvParams: string;
-  isEnvParamsTyping: boolean;
-  envData: EnvData | null;
-  envDataVersion: number;
-}
-
 export interface ColumnHoverState {
   randomHudTexts: string[];
   branchText1: string;
@@ -135,7 +120,6 @@ export interface AppContextValue
     PowerSystemState,
     RealtimeStatsState,
     FateTypingState,
-    EnvParamsTypingState,
     ColumnHoverState {}
 
 // ============================================================

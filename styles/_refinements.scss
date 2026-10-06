@@ -21,8 +21,8 @@
 }
 
 .identityMonogram {
-  margin: 24px 0 20px;
-  font: clamp(64px, 6.8vw, 140px) / 1 var(--font-display);
+  margin: 16px 0;
+  font: clamp(64px, min(6.8vw, 10vh), 140px) / 1 var(--font-display);
   letter-spacing: -0.06em;
   color: #e1e9e8;
   span { color: #6cabad; font-family: var(--font-mono); font-weight: 300; }
@@ -52,8 +52,17 @@
   letter-spacing: 0.06em;
 }
 
-.leftPanel .fateTextContainer { width: 38%; right: 21%; bottom: 20%; }
-.leftPanel .fateText { white-space: normal; overflow-wrap: anywhere; font-size: 11px; line-height: 1.7; }
+.leftPanel .fateTextContainer {
+  position: relative;
+  bottom: auto;
+  right: auto;
+  width: 100%;
+  margin-top: 16px;
+  min-height: 44px;
+  align-items: flex-start;
+}
+.leftPanel .fateText { white-space: normal; overflow-wrap: break-word; text-align: left; font-size: 11px; line-height: 1.7; }
+.leftPanel .fateLine { width: 100%; max-width: 270px; }
 
 .experienceIntro {
   margin: 14px 0 28px;

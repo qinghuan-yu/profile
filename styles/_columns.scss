@@ -127,8 +127,8 @@
 .column1 { left: 16%; }
 .column2 { left: 32%; }
 .column3 { left: 48%; }
-.column4 { left: 64%; }
-.column5 { left: 80%; }
+
+
 
 // 垂直线条
 .verticalLine {
@@ -498,67 +498,10 @@
 }
 
 // Column 4 (CONTACT - Radar/Ripple - Inverted Pink)
-.column4:hover:not(.nonInteractive) {
-  // --- 雷达扫描样式 --- (保持不变)
-  .hudOverlay::before { 
-    // Restore 15deg conic-gradient scan
-    animation: radarScan 2.5s linear infinite; 
-    width: 70%; 
-    height: 70%;
-    border-radius: 50%; 
-    // Restore 15 degree angle
-    background: conic-gradient(from 0deg, 
-        rgba(24, 200, 238, 0.5) 0deg 15deg, // 15 degrees beam
-        transparent 15.1deg 360deg);
-    border: none; 
-    opacity: 0.8; 
-    // Ensure z-index is appropriate if not already set
-    z-index: 1; 
-  }
-  
-  // --- 波纹动画和位置 --- (修改: 调整位置，保持错开动画)
-  .ripple1, .ripple2, .ripple3 {
-      animation-name: contactRippleExpandShadow;
-      animation-duration: 1.8s; 
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-out;
-      // Base styles like position absolute should be on .radarRipple
-  }
-  // --- 修改: 调整位置使其更错落 --- 
-  .ripple1 { top: 25%; left: 15%; width: 40px; height: 40px; animation-delay: 0s; } // 修改: left 从 20% 改为 15% (向左)
-  .ripple2 { top: 70%; left: 60%; width: 60px; height: 60px; animation-delay: 0.4s; } // 修改: left 从 55% 改为 60% (向右)
-  .ripple3 { top: 45%; left: 75%; width: 50px; height: 50px; animation-delay: 0.8s; } // 也调整了大小和位置
 
-  .imageHud { /* position unchanged */ top: 15px; left: 15px; }
-}
 
 // Column 5 (ABOUT - Focus + 5 Random HUDs)
-.column5:hover:not(.nonInteractive) {
-  overflow: visible; // 新增: 允许 HUD 溢出此列
-  .hudOverlay::before { 
-    animation: aboutFocus 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-  
-  // Main centered image HUD - no change to position, but adjust animation name if needed
-  > .imageHud { // Use direct child selector '>' to target the main one
-    bottom: 50%;
-    left: 15px;
-    transform: translateY(50%); 
-    animation: fadeInImageHudCentered 0.4s ease-out 0.3s forwards; 
-  }
 
-  // Style and position the 5 random HUDs on hover
-  .randomHud {
-    // Apply the standard fade-in animation (slightly delayed)
-    animation: fadeInImageHud 0.4s ease-out forwards;
-  }
-
-  .randomHud1 { top: 10%; left: 25%; animation-delay: 0.35s; }
-  .randomHud2 { top: 30%; left: 80%; animation-delay: 0.45s; transform: scale(0.9); } // Slightly smaller
-  .randomHud3 { top: 75%; left: 10%; animation-delay: 0.4s; transform: scale(1.1); } // Slightly larger
-  .randomHud4 { top: 85%; left: 60%; animation-delay: 0.5s; }
-  .randomHud5 { top: 5%; left: 55%; animation-delay: 0.55s; transform: scale(0.95); } 
-}
 
 // --- 修改: radarRipple 基础样式 (修改: 初始边框宽度设为 1px) ---
 .radarRipple {
@@ -718,29 +661,7 @@
 }
 
 // --- Dedicated Scanlines for LIFE column ---
-.lifeScanlines {
-  position: absolute;
-  inset: 0; // Cover the entire overlay area
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 2px,
-    rgba(24, 200, 238, 0.2) 2px,
-    rgba(24, 200, 238, 0.2) 3px
-  );
-  background-size: 100% 6px;
-  filter: blur(0.3px);
-  background-position: 0 0;
-  opacity: 0; // Initially hidden
-  z-index: 1; // Ensure it's below ECG lines (which use ::before/::after at z-index 2 relative to hudOverlay)
-  transition: opacity 0.2s ease-out;
 
-  // Trigger animation on hover of column3 (LIFE)
-  .column3:hover:not(.nonInteractive) & {
-    animation: scanHud 1.5s linear infinite, fadeInScanlines 0.2s ease-out forwards;
-    animation-delay: 0.2s, 0.2s; // Delay slightly after ECG fade-in
-  }
-}
 
 // --- 新增: 倒置状态下的心电图扫描线（粉色）---
 .invertedScanlines {
@@ -829,13 +750,7 @@
     }
   }
 
-  .column4:hover:not(.nonInteractive) {
-    .hudOverlay::before {
-      background: conic-gradient(from 0deg, 
-          rgba(var(--ark-primary-rgb), 0.5) 0deg 15deg,
-          transparent 15.1deg 360deg);
-    }
-  }
+
 }
 
 // 新增: WORK 列文字后的图标样式
@@ -871,7 +786,7 @@
 
   // 清除每列的桌面端 left 定位
   .column0, .column1, .column2,
-  .column3, .column4, .column5 {
+  .column3 {
     left: auto;
   }
 
@@ -940,12 +855,7 @@
   .ripple3 { top: 50%; left: 80%; width: 30px; height: 30px; }
 
   // 雷达扫描区域适配
-  .column4:hover:not(.nonInteractive) {
-    .hudOverlay::before {
-      width: 50px;
-      height: 50px;
-    }
-  }
+
 
   // 非 worksColumn 的伪元素上下线条
   .column:not(.worksColumn)::before { top: 0; }
@@ -996,8 +906,8 @@
   .column1::after { content: 'SEC-002' !important; }
   .column2::after { content: 'SEC-003' !important; }
   .column3::after { content: 'SEC-004' !important; }
-  .column4::after { content: 'SEC-005' !important; }
-  .column5::after { content: 'SEC-006' !important; }
+
+
 
   .column::after {
     position: absolute !important;

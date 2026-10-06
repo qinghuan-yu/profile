@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import type { EnvData, EnvParamsTypingState, FateTypingState } from '../types';
+import { useEffect, useState } from 'react';
+import type { FateTypingState } from '../types';
 
 type TimeoutId = ReturnType<typeof setTimeout>;
 
@@ -47,8 +47,8 @@ export function useFateTypingEffect(textVisible: boolean): FateTypingState {
     if (!textVisible) return;
 
     const timeouts: TimeoutId[] = [];
-    const englishText = 'Stuffing data science, musical expression, and hardware experiments into the archive';
-    const chineseText = '正在把数据科学、音乐表达和硬件实验塞进同一个档案库';
+    const englishText = 'Notes on things I learn and make.';
+    const chineseText = '记录学习过程，也整理做过的尝试。';
 
     setIsFateTypingActive(true);
 
@@ -80,78 +80,4 @@ export function useFateTypingEffect(textVisible: boolean): FateTypingState {
   }, [textVisible]);
 
   return { displayedFateText, isFateTypingActive };
-}
-
-export function useEnvParamsTypingEffect(textVisible: boolean): EnvParamsTypingState {
-  const [displayedEnvParams, setDisplayedEnvParams] = useState('');
-  const [isEnvParamsTyping, setIsEnvParamsTyping] = useState(false);
-  const [envData, setEnvData] = useState<EnvData | null>(null);
-  const [envDataVersion, setEnvDataVersion] = useState(0);
-  const currentTempRef = useRef(55.0);
-  const lastGeneratedParamsRef = useRef('');
-
-  useEffect(() => {
-    if (!textVisible) return;
-
-    const timeouts: TimeoutId[] = [];
-    setIsEnvParamsTyping(true);
-
-    const generateNewParams = () => {
-      const tempChange = (Math.random() * 3) - 1.5;
-      const newTemp = Math.max(44, Math.min(66, currentTempRef.current + tempChange));
-      currentTempRef.current = newTemp;
-
-      const rad = Math.floor(200 + Math.random() * 300);
-      const o2 = (8 + Math.random() * 2).toFixed(1);
-      const pollutionLevels = ['SEVERE', 'CRITICAL', 'UNSTABLE', 'HAZARDOUS'];
-      const rainStatus = ['IMMINENT', 'LIKELY', 'UNLIKELY', 'CERTAIN'];
-      const warnings = [
-        'ALERT: TOXIC EXPOSURE RISK',
-        'CAUTION: RADIATION STORM',
-        'DANGER: ACID ZONES EXPANDING',
-        'URGENT: OXYGEN DEPLETION',
-      ];
-
-      const pollution = pollutionLevels[Math.floor(Math.random() * pollutionLevels.length)];
-      const acidRain = rainStatus[Math.floor(Math.random() * rainStatus.length)];
-      const warningLine = Math.random() > 0.5
-        ? `\n${warnings[Math.floor(Math.random() * warnings.length)]}`
-        : '';
-
-      setEnvData({ temp: newTemp, rad, o2: parseFloat(o2), pollution, acidRain });
-      setEnvDataVersion(prev => prev + 1);
-
-      return `TEMP: ${newTemp.toFixed(1)}°C\nRAD: ${rad}mSv/h\nO2: ${o2}%\nPOLLUTION: ${pollution}\nACID RAIN: ${acidRain}${warningLine}`;
-    };
-
-    const generateAndType = () => {
-      const newParams = generateNewParams();
-      lastGeneratedParamsRef.current = newParams;
-      typeString(newParams, 35, setDisplayedEnvParams, timeouts, () => {
-        timeouts.push(setTimeout(startTyping, 8000 + Math.floor(Math.random() * 7000)));
-      });
-    };
-
-    const startTyping = () => {
-      const textToDelete = lastGeneratedParamsRef.current;
-      if (textToDelete.length > 0) {
-        deleteString(textToDelete, 20, setDisplayedEnvParams, timeouts, generateAndType);
-      } else {
-        generateAndType();
-      }
-    };
-
-    timeouts.push(setTimeout(startTyping, 1000));
-
-    return () => {
-      timeouts.forEach(clearTimeout);
-      setDisplayedEnvParams('');
-      setIsEnvParamsTyping(false);
-      setEnvData(null);
-      setEnvDataVersion(0);
-      lastGeneratedParamsRef.current = '';
-    };
-  }, [textVisible]);
-
-  return { displayedEnvParams, isEnvParamsTyping, envData, envDataVersion };
 }

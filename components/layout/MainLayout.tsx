@@ -40,7 +40,6 @@ export default function MainLayout({ children }) {
     currentTime, hudVisible, leftPanelAnimated, leversVisible,
     handleActivateTesseract, handleDischargeLeverPull, isDischarging,
     powerLevel, isFateTypingActive, displayedFateText,
-    isEnvParamsTyping, displayedEnvParams, envData, envDataVersion,
     deactivateTesseract,
   } = app;
 
@@ -214,8 +213,6 @@ export default function MainLayout({ children }) {
             powerLevel={powerLevel}
             isFateTypingActive={isFateTypingActive}
             displayedFateText={displayedFateText}
-            isEnvParamsTyping={isEnvParamsTyping}
-            displayedEnvParams={displayedEnvParams}
             isInverted={isInverted}
             drawerOpen={drawerOpen}
             isStandalone={isStandalone}

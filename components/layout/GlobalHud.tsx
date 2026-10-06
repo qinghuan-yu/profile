@@ -22,11 +22,11 @@ function GlobalHud({ currentTime, hudVisible }) {
       <>
         <div className={`${styles.hudElement} ${styles.topLeft} ${hudVisible ? styles.visible : ''}`}>
           <div>TIME: {currentTime}</div>
-          <div>SYSTEM_ONLINE</div>
+          <div>PERSONAL WEBSITE</div>
         </div>
         <div className={`${styles.hudElement} ${styles.topRight} ${hudVisible ? styles.visible : ''}`}>
-          <div>NEURAL_NETWORK_ACTIVE</div>
-          <div>SIGNAL: STABLE</div>
+          <div>QING-UU</div>
+          <div>NOTES & PROJECTS</div>
         </div>
         <div className={`${styles.hudElement} ${styles.bottomLeft} ${hudVisible ? styles.visible : ''}`}>
           <div>QING-UU</div>
@@ -39,7 +39,7 @@ function GlobalHud({ currentTime, hudVisible }) {
     <>
       <div className={`${styles.hudElement} ${styles.topLeft} ${hudVisible ? styles.visible : ''}`}>
         <div>TIME: {currentTime}</div>
-        <div>SYSTEM_ONLINE</div>
+        <div>PERSONAL WEBSITE</div>
       </div>
       <div className={`${styles.hudElement} ${styles.topRight} ${hudVisible ? styles.visible : ''}`}>
         <div>CURSOR_X: <span ref={cursorXRef}>0000</span></div>
@@ -47,11 +47,11 @@ function GlobalHud({ currentTime, hudVisible }) {
       </div>
       <div className={`${styles.hudElement} ${styles.bottomLeft} ${hudVisible ? styles.visible : ''}`}>
         <div>QING-UU</div>
-        <div>NAV_SYSTEM_v2.4</div>
+        <div>PERSONAL WEBSITE</div>
       </div>
       <div className={`${styles.hudElement} ${styles.bottomRight} ${hudVisible ? styles.visible : ''}`}>
-        <div>TACTICAL_MODE</div>
-        <div>SECURE_CONNECTION</div>
+        <div>NOTES & PROJECTS</div>
+        <div>LEARNING IN PROGRESS</div>
       </div>
     </>
   );

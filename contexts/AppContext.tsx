@@ -3,7 +3,7 @@ import useAnimationSequence from '../hooks/useAnimationSequence';
 import usePowerSystem from '../hooks/usePowerSystem';
 import useRealtimeStats from '../hooks/useRealtimeStats';
 import useColumnHover from '../hooks/useColumnHover';
-import { useFateTypingEffect, useEnvParamsTypingEffect } from '../hooks/useTypingEffect';
+import { useFateTypingEffect } from '../hooks/useTypingEffect';
 import type { AppContextValue } from '../types';
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -32,7 +32,6 @@ export function AppProvider({ children }: AppProviderProps) {
   const { currentTime, runtime, totalVisits, currentVisitors } = stats;
 
   const { displayedFateText, isFateTypingActive } = useFateTypingEffect(textVisible);
-  const { displayedEnvParams, isEnvParamsTyping, envData, envDataVersion } = useEnvParamsTypingEffect(textVisible);
 
   const columnHover = useColumnHover();
   const {
@@ -53,7 +52,6 @@ export function AppProvider({ children }: AppProviderProps) {
     currentTime, runtime, totalVisits, currentVisitors,
     // Typing
     displayedFateText, isFateTypingActive,
-    displayedEnvParams, isEnvParamsTyping, envData, envDataVersion,
     // Column hover
     randomHudTexts, branchText1, branchText2, branchText3, branchText4,
     handleColumnMouseEnter, handleColumnMouseLeave,
@@ -66,7 +64,6 @@ export function AppProvider({ children }: AppProviderProps) {
     chargeBattery, handleDischargeLeverPull, handleActivateTesseract, deactivateTesseract,
     currentTime, runtime, totalVisits, currentVisitors,
     displayedFateText, isFateTypingActive,
-    displayedEnvParams, isEnvParamsTyping, envData, envDataVersion,
     randomHudTexts, branchText1, branchText2, branchText3, branchText4,
     handleColumnMouseEnter, handleColumnMouseLeave,
   ]);
