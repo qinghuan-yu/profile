@@ -1,137 +1,51 @@
-**中文** | [English](./README.en.md)
+# Qing-UU // Personal Node
 
-# RAINMORIME Template
+Qing-UU 的个人主页：学习记录、代码、音乐和硬件项目。
 
-这是一个后末日科幻 HUD 风格的作品集 + 博客模板。
+![个人主页](docs/images/homepage-home.jpg)
 
-> **[在线演示 →](https://rainmorime.com)**
+## 打开
 
-![Preview](./docs/preview.png)
-<!-- 🖼️ 建议替换为 GIF（15 秒以内，展示悬停动画 + 页面切换效果更好） -->
+双击 `双击打开.html`，或运行本地服务：
 
-## 开始使用
-
-```bash
-git clone https://github.com/RainMorime/rainmorime-template.git
-cd rainmorime-template
-npm install
-cp .env.example .env.local
-npm run dev
-```
-
-打开 `http://localhost:3000`，你会看到加载动画，然后是五列导航。接下来要做的就是把模板里的占位内容换成你自己的。
-
-## 把它变成你的
-
-### 第一步：基本信息
-
-这些是你**必须**改的地方，否则网站上会显示 "YOUR_SITE" 和 "your-email@example.com"：
-
-| 要改什么 | 在哪里 | 改成什么 |
-|---------|--------|---------|
-| 站名 | `components/layout/GlobalHud.tsx` | 搜索 `YOUR_SITE`，换成你的站名 |
-| 加载标题 | `components/shared/LoadingScreen/LogoTitle.tsx` | 同上 |
-| 邮箱 | `components/sections/ContactSection.tsx` | 搜索 `your-email@example.com` |
-| 邮箱（复制） | `pages/content.tsx` | 搜索 `your-email@example.com` |
-| 版权 | `components/sections/AboutSection.tsx` | 搜索 `Your Name` |
-| 头像 | `public/avatar.svg` | 替换为你的头像图片 |
-| 打字签名 | `hooks/useTypingEffect.ts` | 修改 `englishText` 和 `chineseText` |
-
-### 第二步：填充内容
-
-`data/` 目录是你所有内容的数据源，格式是普通的 TypeScript 数组，照着示例改就行：
-
-| 文件 | 内容 |
-|------|------|
-| `data/projects.ts` | 你的项目和作品 |
-| `data/experience.ts` | 教育和工作经历 |
-| `data/life.ts` | 游戏、旅行、日常 |
-| `data/skills.ts` | 技能树 |
-| `data/friendLinks.ts` | 友情链接 |
-
-### 第三步：写博客
-
-在 `content/blog/` 里创建 `.mdx` 文件：
-
-```markdown
----
-title: "文章标题"
-date: "2025-01-01"
-excerpt: "一段简短描述"
-tags: ["标签1", "标签2"]
----
-
-正文用 Markdown 写。支持代码高亮、图片、自定义组件。
-```
-
-### 第四步：其他可选配置
-
-<details>
-<summary><b>音乐播放器</b></summary>
-
-编辑 `components/interactive/MusicPlayer.tsx` 顶部的 `playlist` 数组，把音频文件放到 `public/music/`。支持 `.mp3` 和外链。
-
-</details>
-
-<details>
-<summary><b>配色</b></summary>
-
-主色调是 `styles/globals.scss` 里的 `--ark-highlight-green: #b2f2bb`。改这一个变量就能改全站的绿。
-
-负色（拉杆切换的粉色模式）用的是 `--ark-inverted-*` 系列变量，在同一个文件里。
-
-</details>
-
-<details>
-<summary><b>环境变量</b></summary>
-
-```env
-PORT=3000                              # 服务端口，默认 3000
-NEXT_PUBLIC_SITE_URL=https://你的域名   # 用于 sitemap 和 RSS
-```
-
-</details>
-
-<details>
-<summary><b>部署</b></summary>
-
-```bash
+```powershell
+npm ci
 npm run build
-npm start          # 或用 PM2：
-pm2 start server.js --name my-site
+npm start
 ```
 
-自带 SSE 实时统计（访客数 + 在线人数 + 运行时长），不需要额外数据库。统计数据持久化在项目根目录的 `.stats.json` 文件中。
+开发时运行 `npm run dev`。
 
-</details>
+- `/`、`/personal.html`：作品集。
+- `/archive.html`：原版互动图录。
+- `个人网站样例.html`：同一作品集的另一个离线入口。
 
-## 技术栈
+## 内容
 
-Next.js 14 · TypeScript · SCSS Modules · CSS @keyframes · Framer Motion · GSAP · Three.js · MDX · Node.js SSE
+重点展示 MCMer、Dialograph、Pianalysis、Decision Arena、旋律标注工具和 ESP32 GIF Player。日记日历只出现在关于页的次要链接中。
 
-## 项目结构
+资料来自 [GitHub 主页](https://github.com/qinghuan-yu/qinghuan-yu) 及各公开项目的 README。姓名、简介、项目和外链统一在 `src/site/profile.ts` 中修改。项目详情中的图版展示各项目的处理流程。
 
+## 页面
+
+- 首页：姓名、简短介绍和作品入口。
+- 关于：个人介绍与学习方向。
+- 作品：拖动地图、点选项目、查看说明与源码。
+- 方向：每个条目关联具体项目。
+- 联系：GitHub 和博客链接。
+
+支持 `#/works/pianalysis`、`#/about`、`#/skills`、`#/contact` 深链。`?still` 可用于静态截图检查。
+
+## 检查
+
+```powershell
+npm test
+npm run build
+npm run verify
 ```
-├── pages/              # 页面路由
-├── components/
-│   ├── layout/         # 布局（导航、HUD、左面板）
-│   ├── sections/       # 内容区（Works / Experience / Life / Contact / About）
-│   ├── detail/         # 详情视图
-│   ├── effects/        # 视觉效果（WebGL、噪点、3D）
-│   ├── interactive/    # 交互组件（音乐播放器、灯箱、拉杆）
-│   └── shared/         # 通用组件
-├── hooks/              # 自定义 Hooks
-├── contexts/           # 全局状态
-├── data/               # ← 你的内容在这里
-├── content/blog/       # ← 你的博客在这里
-├── styles/             # SCSS 样式
-└── server.js           # 自定义服务器（SSE 统计）
-```
 
-## 许可证
+Cloudflare Pages 沿用 `profile` 项目，构建命令为 `npm run build:cloudflare`，输出目录为 `out`。生产域名为 `https://info.reliarc.com`。
 
-[MIT](./LICENSE) — 免费使用，保留署名即可。
+技术栈：TypeScript、Vite、SVG、Canvas；原版圣堂使用 Three.js。
 
----
-
-设计与开发：[RainMorime](https://github.com/RainMorime)
+改造与验证记录见 [docs/portfolio-validation.md](docs/portfolio-validation.md)。原图录说明保存在 [docs/original-guide.md](docs/original-guide.md)，素材来源和第三方组件说明见 [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt)。

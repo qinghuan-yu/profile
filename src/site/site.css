@@ -1,0 +1,92 @@
+/* Personal site — additions on top of the festival template. */
+.site-backdrop{position:absolute;inset:0;z-index:-5;overflow:hidden;background:#e9ecec}
+.site-backdrop img{position:absolute;left:-4%;top:-10%;width:108%;height:120%;object-fit:cover;opacity:.55;transform:translate(calc(var(--mx)*-14px),calc(var(--my)*-8px));transition:transform 1s ease-out}
+.site .world-veil{background:linear-gradient(90deg,#eff1eff2 0%,#eff1efc0 30%,#eff1ef40 66%,#eff1ef30),linear-gradient(0deg,#eff1ef,transparent 25%,transparent 80%,#eff1efb0)}
+.site.mode-records .site-backdrop img{opacity:.25}
+.site.mode-atlas .site-backdrop{background:#bcc6c8}.site.mode-atlas .site-backdrop img{opacity:0}
+.site.mode-contact .site-backdrop{background:#dcdfe1}
+.portfolio-contours{position:absolute;inset:0;width:calc(var(--u)*440);height:100%;fill:none;stroke:#3a5bc2;stroke-width:.15;opacity:.18}
+.site .route-portals{display:flex;gap:8px}
+.site .route-portals button{display:flex;align-items:center;gap:8px;width:auto!important;height:auto!important;padding:10px 14px;border:1px solid var(--line);background:#eef1ef;font:11px var(--sans);color:var(--ink);transform:none!important}
+.site .route-portals svg{width:17px;height:17px}
+.site .route-counter{background:#22282b;clip-path:none;border-left:4px solid var(--cobalt);padding:12px 18px;min-width:110px}
+.site .route-counter:before,.site .route-counter:after{display:none}
+.site .home-wordmark span:first-child{font-size:.4em;letter-spacing:.02em;margin-bottom:14px}
+.site-credit{font:7px var(--mono)!important;letter-spacing:1px!important;opacity:.7}
+
+/* About */
+.site-bio{font:12px/1.95 var(--cn-serif);color:#3f4a4e;max-width:420px;margin:-12px 0 22px;pointer-events:auto}
+.site .operator-art{inset:-4% -2% -2% 46%}
+.site a.line-button{text-decoration:none}
+
+/* Works panel tags */
+.rp-tags{display:flex;flex-wrap:wrap;gap:6px;margin:-6px 0 14px}
+.rp-tags span{font:9px var(--mono);letter-spacing:1px;padding:3px 8px;border:1px solid var(--line);color:var(--muted)}
+
+/* Skills */
+.skill-list{position:absolute;right:var(--pad);top:16%;z-index:4;width:230px;display:grid;grid-template-columns:1fr;background:#f4f5f3e6;border:1px solid #3a5bc244;padding:6px 0}
+.skill-list button{display:grid;grid-template-columns:26px 1fr 16px;align-items:center;gap:6px;padding:10px 12px;text-align:left;font:12px var(--cn-serif);letter-spacing:1px}
+.skill-list small{font:8px var(--mono);color:var(--cobalt)}
+.skill-list button>span{font:12px var(--mono);color:var(--cobalt)}
+.skill-list button:hover,.skill-list button.active{background:#22282b;color:#f3f4f2}.skill-list button.active small{color:#9fb3ff}
+.site #atlas .atlas-tools{right:auto;left:calc(7% + 38px);bottom:4%}
+.site #atlas .atlas-readout{bottom:14%}
+
+/* Contact */
+#contact{overflow:hidden}#contact .cv-root{position:absolute;inset:0}
+#contact .atlas-head{left:var(--pad)}
+#contact .atlas-head h2,#contact .atlas-head p{color:#22282b}
+.contact-card{position:absolute;left:50%;top:50%;z-index:6;width:min(420px,86vw);transform:translate(-50%,-40%);background:#f6f7f5f5;border:1px solid var(--line);box-shadow:0 30px 80px #13234a30;padding:0 26px 22px;opacity:0;pointer-events:none;transition:opacity .5s,transform .7s cubic-bezier(.19,1,.22,1)}
+.contact-card.visible{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.contact-card>small{display:block;margin:0 -26px 18px;padding:9px 26px;background:#22282b;color:#f3f4f2;font:8px var(--mono);letter-spacing:2px}
+.contact-card h3{font:400 30px var(--cn-serif);letter-spacing:6px;margin:0 0 16px}.contact-card h3 em{font:italic 20px var(--serif);letter-spacing:0;color:var(--muted);margin-left:8px}
+.contact-mail{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;border:1px solid var(--cobalt);font:600 16px var(--sans);letter-spacing:.5px;color:var(--cobalt);text-decoration:none;box-sizing:border-box}
+.contact-mail span{font:9px var(--mono);letter-spacing:1px;color:var(--muted)}.contact-mail:hover{background:var(--cobalt);color:#fff}.contact-mail:hover span{color:#dfe6ff}
+.contact-links{display:flex;gap:16px;margin:16px 0 10px}.contact-links a{font:11px var(--mono);letter-spacing:1px;text-decoration:none;color:var(--ink)}.contact-links a:hover{color:var(--cobalt)}
+.contact-card p{font:9px var(--mono);letter-spacing:1px;color:var(--muted);margin:0}
+#contact .atlas-tools{right:var(--pad);bottom:5%}
+
+@media(max-width:700px){.skill-list{left:6%;right:6%;width:auto;top:auto;bottom:15%;grid-template-columns:1fr 1fr;max-height:30%;overflow:auto}.site #atlas .atlas-readout{display:none}.site #atlas .atlas-tools{left:6%;right:6%}.site-bio{display:none}.site .operator-art{inset:25% -31% 4% 23%}}
+#skill-spec{font:10px/1.9 var(--mono);color:#2b3438;padding:0 12px 12px}
+
+/* 沿用原有构图，收紧介绍并为真实项目名称留出空间。 */
+.site .home-copy .home-quote{max-width:310px;line-height:1.9;font-style:normal}
+.site .home-caption a{font:12px var(--cn-serif);color:var(--ink);text-decoration:none;pointer-events:auto}
+.site .home-caption a:hover,.site .op-footnote a:hover,#skill-spec a:hover{color:var(--cobalt)}
+.site .site-bio{margin:18px 0 24px;max-width:360px;font-family:var(--sans);line-height:1.9}
+.site .op-footnote a{color:var(--ink);text-decoration:none}
+.site .op-subtitle>span:first-child{display:none}
+.site #op-name .name-line{display:block;line-height:1.05}
+.site #op-name .line-1{margin-top:0;font-size:1em}
+.site .op-stack .column,.site .home-stack .column{display:none}
+.site .project-flow{background:#e9eeeb}
+.site .project-flow .project-plate{display:block;width:100%;height:100%;object-fit:contain}
+.site .route-panel h3{font-family:var(--sans);font-size:clamp(18px,1.6vw,26px);letter-spacing:0;overflow-wrap:anywhere}
+.site .route-panel .rp-desc{line-height:1.9}
+.site .contact-card{left:70%;width:min(340px,80vw);box-shadow:none}
+.site .contact-card h3{font-family:var(--serif);letter-spacing:0;font-size:36px}
+.site .contact-links a{font-family:var(--sans);font-size:13px}
+.site .contact-links{flex-wrap:wrap;row-gap:12px}
+.site-education{max-width:360px;margin:0 0 20px;font:11px/1.8 var(--sans);color:var(--ink)}
+.site-education>div{display:grid;grid-template-columns:100px 1fr;gap:12px;margin-top:5px}
+.site-education dt{font-family:var(--mono);color:var(--muted)}
+.site-education dd{margin:0}
+.site .route-head .eyebrow,.site .rs-label{font-size:0}
+.site .rs-label em{font-size:10px;font-style:normal}
+#skill-spec a{display:inline-block;margin-top:10px;color:var(--cobalt);text-decoration:none;font:12px var(--sans)}
+@media(max-width:700px){
+ .site .home-copy .home-quote{max-width:230px;font-size:12px}
+ .site .site-bio{display:block;font-size:11px;max-width:205px;margin:12px 0 16px;line-height:1.75;background:#eff1efed;box-shadow:0 0 15px 10px #eff1efed}
+ .site .operator-copy .op-tools{pointer-events:auto}
+ .site .site-education{max-width:235px;font-size:10px;margin-bottom:16px;background:#eff1efed;box-shadow:0 0 15px 8px #eff1efed}
+ .site .site-education>div{grid-template-columns:83px 1fr;gap:7px}
+ .site .skill-list{bottom:13%;max-height:36%;grid-template-columns:1fr}
+ .site .skill-list button{font-size:12px;padding:9px 12px}
+ .site #atlas .atlas-readout{display:block;left:6%;right:6%;top:20%;bottom:auto;width:auto;max-width:none;padding:12px;background:#eff1efed}
+ .site #atlas #skill-name{font-size:20px}
+ .site #atlas #skill-spec{padding:0;line-height:1.8}
+ .site .route-portals{display:none}
+ .site .contact-card{left:50%;top:58%;width:min(340px,80vw)}
+ .site #contact .atlas-head p{max-width:240px;line-height:1.8}
+ .site .route-panel h3{font-size:20px}
+}
