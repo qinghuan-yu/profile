@@ -1,5 +1,5 @@
 {
-  "name": "rhine-lab-art",
+  "name": "qing-uu-personal-node",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -25,7 +25,7 @@
   "engines": {
     "node": ">=24"
   },
-  "description": "Rhine Lab art archive with preserved Active Theory WebGL motion",
+  "description": "Qing-UU personal homepage with WebGL scenes and project links",
   "repository": {
     "type": "git",
     "url": "https://github.com/reverieach/rhine-lab-art.git"

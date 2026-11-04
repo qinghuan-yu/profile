@@ -7,13 +7,14 @@ export async function buildBoot(root, write) {
   for (const file of await fs.readdir(dir)) {
     if (!file.endsWith('.ts')) continue;
     let source = await fs.readFile(path.join(dir, file), 'utf8');
+    source = source.replaceAll('JOYCE MOORE', 'QING-UU').replaceAll('ID CONFIRMED', 'PROFILE LOADED');
     source = source.replace('import { themeAmount } from "./theme-ui";', 'const themeAmount = 0;')
       .replace('import artwork from "./boot-lettering-art.json";', `const artwork = ${await fs.readFile(path.join(dir, 'boot-lettering-art.json'), 'utf8')};`)
       .replace('import "./boot-lettering.css";', '')
       .replace('import { assetUrl } from "./asset-url";', 'const assetUrl = path => path; const __RHINE_NOVECENTO__ = false;')
       .replace('declare const __RHINE_NOVECENTO__: boolean;', '')
       .replace(/from "(\.\/[^".]+)"/g, 'from "$1.js"');
-    await write(`assets/boot/${file.replace('.ts', '.js')}`, stripTypeScriptTypes(source, { mode: 'transform' }));
+    await write(`assets/boot/${file.replace('.ts', '.js')}`, stripTypeScriptTypes(source, { mode: 'transform' }).replace(/\r?\n/g, '\r\n'));
   }
   await write('assets/boot/boot.css', await fs.readFile(path.join(root, 'src/boot/boot.css')));
   await write('assets/boot/entry.js', await fs.readFile(path.join(root, 'src/boot/entry.js')));

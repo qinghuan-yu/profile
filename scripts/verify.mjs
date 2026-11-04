@@ -72,7 +72,7 @@ async function inspect(mobile) {
     await page.waitForTimeout(600);
     const after = await page.evaluate(() => AppState.get('ViewController/scroll').views[0].layers.particles.layers.logo.rotation.y);
     assert.ok(Math.abs(after - before) > .01); item.interactions.dragRotatesLogo = true;
-    await page.locator('a[aria-label="Archive"]').focus(); await page.keyboard.press('Enter');
+    await page.locator('a[aria-label="Explore"]').focus(); await page.keyboard.press('Enter');
     await page.waitForFunction(() => AppState.get('Router/state') === 'work'); item.interactions.workNavigation = true;
     // 包含切场中间状态，检查斜切玻璃同时显示两个场景。
     for (const [label, scene, fraction] of [['home-mid', 'Home', .65], ['home-about-transition', 'Home', .97], ['about', 'About', .5], ['work', 'Work', .35], ['tree', 'TreeScene', .5], ['lab', 'CleanRoom', .5], ['footer', 'Footer', .62]]) {
@@ -88,7 +88,7 @@ async function inspect(mobile) {
     await page.waitForTimeout(1800); await shot('detail'); item.interactions.projectDetails = true;
     if (!original) {
       const current = await page.evaluate(() => AppState.get('Work/project').thumbnailURL);
-      await page.getByRole('button', { name: 'Open original image', exact: true }).click();
+      await page.getByRole('button', { name: 'View the full image', exact: true }).click();
       await page.waitForFunction(() => { const img = document.querySelector('.VideoModal img'); return img?.offsetWidth > 100 && img.complete && img.naturalWidth > 0; });
       assert.ok((await page.locator('.VideoModal img').getAttribute('src')).endsWith(current));
       await shot('fullscreen-image'); await page.getByRole('button', { name: 'Close Image', exact: true }).click();
@@ -105,19 +105,19 @@ async function inspect(mobile) {
     if (!original) {
       // 手机的聊天入口仅在 Work 中段显示；先进入真实可操作状态。
       await page.evaluate(() => { const s = AppState.get('ViewController/scroll'), w = s.views[2]; s.scrollTo(w.start + (w.end - w.start) * .35, 0); });
-      await page.locator('.ChatDOM a[title="-> the sky"]').waitFor({ state: 'visible' });
+      await page.locator('.ChatDOM a[title="-> hardware"]').waitFor({ state: 'visible' });
       await page.waitForFunction(() => AppState.get('ViewController/uniforms')?.uChatOpen?.value > .99);
-      await page.locator('.ChatDOM a[title="-> the sky"]').click();
+      await page.locator('.ChatDOM a[title="-> hardware"]').click();
       await page.waitForFunction(() => {
         const projects = CMSData.workPages.toJSON();
-        return projects.length > 0 && projects.every(project => project.tags.includes('sky'));
+        return projects.length > 0 && projects.every(project => project.tags.includes('hardware'));
       });
       const tags = await page.evaluate(() => CMSData.workPages.toJSON().map(p => p.tags));
-      assert.ok(tags.length && tags.every(tag => tag.includes('sky'))); item.interactions.filter = { tag: 'sky', count: tags.length };
-      const input = page.locator('.ChatDOM textarea').first(); await input.fill('Daybreak'); await input.press('Enter');
-      await page.waitForFunction(() => AppState.get('Work/project')?.perma === 'daybreak', null, { timeout: 15000 });
+      assert.ok(tags.length && tags.every(tag => tag.includes('hardware'))); item.interactions.filter = { tag: 'hardware', count: tags.length };
+      const input = page.locator('.ChatDOM textarea').first(); await input.fill('Pianalysis'); await input.press('Enter');
+      await page.waitForFunction(() => AppState.get('Work/project')?.perma === 'pianalysis', null, { timeout: 15000 });
       await page.waitForFunction(() => !AppState.get('InteractAIAssistant/isThinking')); await page.waitForTimeout(3000);
-      await shot('search-detail'); item.interactions.search = 'daybreak';
+      await shot('search-detail'); item.interactions.search = 'pianalysis';
       assert.equal(await page.locator('video').count(), 0); assert.equal(videoRequests.length, 0);
     }
     assert.equal(errors.length, 0, JSON.stringify(errors)); assert.equal(graphicsErrors.length, 0, JSON.stringify(graphicsErrors)); assert.equal(external.length, 0, JSON.stringify(external));

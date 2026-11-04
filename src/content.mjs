@@ -1,33 +1,46 @@
-export const github = 'https://github.com/reverieach/rhine-lab-art';
-export const brand = 'RHINE LAB';
-export const slogan = 'The shape of a dream.';
+import photoSources from './assets/projects/sources.json' with { type: 'json' };
 
-// A thematic exhibition, not a chronological retelling. Captions are original fan writing.
+export const github = 'https://github.com/qinghuan-yu';
+export const brand = 'Qing-UU';
+export const siteName = 'Qing-UU // Personal Node';
+export const slogan = 'Notes on code, music and things I build.';
+export const email = 'reliarc.yu@gmail.com';
+export const links = {
+  blog: 'https://blog.reliarc.com',
+  music: 'https://music.163.com/#/artist?id=100570638',
+  steam: 'https://steamcommunity.com/id/qing_uu/'
+};
+
+// 个人资料沿用旧主页；项目说明来自公开 README。场景插画的来源单独保留。
 const chapters = [
-  ['Origin', '8da8bd', 'Vision, Kristen', 'Different dreams once shared a single address. Kristen looks toward a sky whose limits she refuses to accept. What begins as a question becomes an institution. / Lone Trail: CW-10 END.'],
-  ['A Name', 'd5a07f', 'Life, Ifrit, Silence', 'She has a name, and a future of her own. In the space between Silence and Ifrit, research acquires a responsibility that no result can erase. / Lone Trail: CW-9 END.'],
-  ['Fracture', 'afa6bf', 'Power, Hooleyak', 'Ambition does not belong to science alone. With Hooleyak, knowledge becomes a bargain: the same horizon can conceal very different intentions. / Lone Trail: CW-6 BEG.'],
-  ['The Dream', 'b7c6a6', 'Dream, Dorothy', 'What if pain could be kept outside a dream? Dorothy imagines a refuge for people whose lives have been made expendable. The tenderness of that wish makes its cost harder to see. / Dorothy\'s Vision: DV-8 END.'],
-  ['The Subjects', '9cbbc1', 'Life, Dorothy', 'Beyond the promise of peace, someone is still waiting to wake. A laboratory can count its subjects; responsibility begins when it sees the people inside those numbers. / Dorothy\'s Vision: DV-6 BEG.'],
-  ['Awakening', 'c1b49f', 'Dream, Choice', 'A future cannot be given without the freedom to refuse it. Waking breaks the perfect enclosure and returns uncertainty, pain and possibility to the people who must live with them. / Dorothy\'s Vision: DV-8 END.'],
-  ['Horizon', '95afc4', 'Sky, Kristen', 'Another question remains overhead. Beyond the laboratory and its fractures, the sky persists as an unfinished experiment. Every answer makes the boundary more visible. / Dorothy\'s Vision: DV-ST-2.'],
-  ['Intersection', 'b4a7bd', 'Life, Saria, Kristen', 'Paths that separated meet again. Shared history survives disagreement, but it cannot make the next decision for either person. / Lone Trail: CW-6 END.'],
-  ['Ascent', 'b7c4d1', 'Sky, Kristen', 'All eyes turn toward the same sky. An impossible machine rises on accumulated labor, sacrifice and belief. The dream is singular; its consequences are shared. / Lone Trail: CW-8 END.'],
-  ['Parting', 'b2afc8', 'Sky, Saria, Kristen', 'To have travelled together is not to share the final destination. At the threshold, devotion and refusal can look like opposite forms of the same care. / Lone Trail: CW-10 BEG.'],
-  ['Daybreak', 'd6b990', 'Life, Dorothy', 'A pause in the ascent: morning returns us to the world below. This memory from Dorothy\'s Vision asks what remains worth protecting, even while someone reaches for the stars. / Dorothy\'s Vision: DV-8 BEG.'],
-  ['Farewell', 'a3b8d5', 'Sky, Kristen', 'At last, the imagined distance becomes a view. Discovery opens a world and leaves another behind. The farewell belongs as much to those below as to the traveller. / Lone Trail: CW-ST-4.'],
-  ['Belonging', 'b5c8bc', 'Life, Muelsyse', 'Those who remain must also find a way forward. Belonging is neither a perfect institution nor a sealed refuge; it is the possibility of being understood by another person. / Lone Trail: CW-ST-3.'],
-  ['The Way Forward', 'c7bba6', 'Life, Silence, Saria', 'The future also begins with a hand offered to someone beside you. After the ascent, Silence and Saria bring the exhibition back to a human scale: care, consequence, and the work that continues. / Lone Trail: CW-ST-3.']
+  ['MCMer', '8da8bd', 'Code, AI, Modeling', 'A workspace for mathematical modeling. Break down a problem, run numerical calculations, and keep parameter sources, computation steps and results together.', `${github}/MCMer`, 'PROJECT / VUE + FASTAPI'],
+  ['Dialograph', 'd5a07f', 'Code, AI, Analysis', 'Analyzes conversations locally, building timelines and structured evidence. Every finding links back to the message it came from.', `${github}/Dialograph`, 'PROJECT / PYTHON + SQLITE'],
+  ['Pianalysis', 'afa6bf', 'Code, Music, MIDI', 'Generates piano accompaniment from a melody. MIDI preparation, melody annotation, GPT-2 training and MIDI export, in one workflow.', `${github}/Pianalysis`, 'PROJECT / GPT-2 + MIDI'],
+  ['Decision Arena', 'b7c6a6', 'Code, AI, Agents', 'Several agents examine one decision, challenge each other and score the proposals. Every conversation and stage event is saved to SQLite.', `${github}/deconstruct`, 'PROJECT / FASTAPI + SSE'],
+  ['Melody Annotator', '9cbbc1', 'Code, Music, MIDI', 'Finds the melody in piano MIDI with the Skyline algorithm. Correct notes on a piano roll, listen back, and export separate MIDI tracks.', `${github}/vue-piano`, 'PROJECT / VUE + TONE.JS'],
+  ['ESP32 GIF Player', 'c1b49f', 'Code, Hardware, ESP32', 'Reads GIF files from a TF card and plays them on an ST7789 display driven by an ESP32.', `${github}/gif-player`, 'PROJECT / ESP32 + C++'],
+  ['About Qing-UU', '95afc4', 'Study, Links', 'I study computer science at Jiangxi University of Finance and Economics. I write code, play piano, and make small music and hardware projects. This page collects some of them.', github, 'PROFILE'],
+  ['Computer Science', 'b4a7bd', 'Study, Code', 'Studying Computer Science and Technology at Jiangxi University of Finance and Economics since 2026.', github, 'EDUCATION / 2026 TO PRESENT'],
+  ['Software Engineering', 'b7c4d1', 'Study, Code', 'Studied Software Engineering at Jiangxi University of Finance and Economics from 2024 to 2026, focusing on VR software development.', github, 'EDUCATION / 2024 TO 2026'],
+  ['Piano & Music', 'b2afc8', 'Music, Links', 'Away from code, I play piano. My music is on NetEase Cloud Music under the name Qing-UU.', links.music, 'MUSIC / NETEASE'],
+  ['Blog', 'd6b990', 'Links, Study', 'Study notes and things I have tried. The latest posts are on blog.reliarc.com.', links.blog, 'WRITING / BLOG.RELIARC.COM'],
+  ['GitHub', 'a3b8d5', 'Links, Code', 'Source code and work in progress. The projects above, and other experiments, are at github.com/qinghuan-yu.', github, 'CODE / QINGHUAN-YU'],
+  ['Steam', 'b5c8bc', 'Links', 'You can also find me on Steam as qing_uu.', links.steam, 'ELSEWHERE / QING_UU'],
+  ['Get in Touch', 'c7bba6', 'Links', 'The easiest way to reach me is email: reliarc.yu@gmail.com.', `mailto:${email}`, 'CONTACT / EMAIL']
 ];
 const files = ['Avg_38_i04.png','Avg_38_i09.png','Avg_38_i03.png','Avg_29_i06.png','Avg_29_i03.png','Avg_29_i07.png','Avg_29_i10.png','Avg_38_i06.png','Avg_38_i10.png','Avg_38_i08.png','Avg_29_i12.png','Avg_38_i12.png','Avg_38_i05.png','Avg_38_i13.png'];
-export const studies = chapters.map(([name, uiColor, tags, description], index) => {
+const projectCovers = ['mcmer', 'dialograph', 'pianalysis', 'decision-arena', 'melody-annotator', 'gif-player'];
+export const studies = chapters.map(([name, uiColor, tags, description, projectURL, clientName], index) => {
   const number = String(index + 1).padStart(2, '0');
-  const slug = name.toLowerCase().replaceAll(' ', '-');
-  const thumbnail = `/assets/rhine/${number}.png`;
+  const slug = name.toLowerCase().replaceAll(' & ', '-').replaceAll(' ', '-');
+  const cover = projectCovers[index];
+  const photo = photoSources.images.find(image => image.id === cover);
+  const thumbnail = cover ? `/assets/projects/${cover}-stock.jpg` : `/assets/rhine/${number}.png`;
   return {
-    id: `rhine-${number}`, name, slug, description, uiColor, tags,
-    clientName: `RHINE LAB / ARCHIVE ${number}`, completionDate: '2026-10-14T00:00:00.000Z',
-    priority: index + 1, projectURL: `https://prts.wiki/w/文件:${files[index]}`,
+    id: `qing-uu-${number}`, name, slug, description, uiColor, tags,
+    clientName, completionDate: null,
+    priority: index + 1, projectURL,
+    artworkSource: cover ? photo.source : `https://prts.wiki/w/文件:${files[index]}`,
     projectLogo: { url: '/assets/daily/wordmark.png', width: 400, height: 200 },
     video: { url: thumbnail, thumbnail }
   };

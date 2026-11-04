@@ -31,8 +31,8 @@ export function bootMotion(appTime) {
     const step = t < 9.12 ? "access" : t < 11.12 ? "logo" : t < 19.48 ? "auth" : t < 22.76 ? "scan" : "welcome";
     let auth = "";
     if (f < 363) {
-        auth = typed("ID CONFIRMED", f, 282, 295);
-        if (f >= 320) auth += " : " + typed("JOYCE MOORE", f, 321, 339);
+        auth = typed("PROFILE LOADED", f, 282, 295);
+        if (f >= 320) auth += " : " + typed("QING-UU", f, 321, 339);
     } else if (f < 421) auth = typed("REQUEST RECEIVED", f, 367, 389);
     else {
         auth = typed("START PROCESSING", f, 423, 440);
