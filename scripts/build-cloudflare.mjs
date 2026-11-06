@@ -30,7 +30,10 @@ for (const entry of await fs.readdir(output, { recursive: true, withFileTypes: t
   await fs.unlink(filename);
   const url = '/' + path.relative(output, filename).split(path.sep).join('/');
   redirects.push(`${url} ${url}.gz 200`);
-  headers.push(`${url}.gz\n  Content-Type: application/json\n  Content-Encoding: gzip\n  Cache-Control: public, max-age=0, must-revalidate, no-transform`);
+  // Pages 的重写响应按原请求 URL 匹配响应头，同时覆盖直接访问压缩文件的情况。
+  for (const pathname of [url, url + '.gz']) {
+    headers.push(`${pathname}\n  Content-Type: application/json\n  Content-Encoding: gzip\n  Cache-Control: public, max-age=0, must-revalidate, no-transform`);
+  }
   console.log(`${url}: ${stat.size} → ${compressed.length} bytes`);
 }
 await fs.writeFile(path.join(output, '_redirects'), redirects.join('\n') + '\n', 'utf8');
