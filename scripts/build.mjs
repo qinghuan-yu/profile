@@ -8,8 +8,9 @@ import { ExtrudeGeometry, Vector3 } from 'three';
 import { rhineShapes, rhineSVG } from '../src/rhine-shape.mjs';
 import { buildBoot } from './build-boot.mjs';
 import { photoCredits } from '../src/photo-credits.mjs';
+import { staticHome } from '../src/static-home.mjs';
 import sharp from 'sharp';
-import { brand, slogan, siteName, email, links, github, studies } from '../src/content.mjs';
+import { brand, slogan, siteName, siteURL, email, links, github, studies } from '../src/content.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const reference = path.join(root, 'vendor/activetheory');
@@ -67,7 +68,7 @@ await adaptModule('WorkDetailContent', input => {
   out = replace(out, '"Close Video"', '"Close Image"', '全屏关闭标签');
   out = replace(out, '"Open fullscreen video"', '"Open fullscreen image"', '全屏打开标签');
   out = replace(out, 'color:color})=>{_this.layers.title.setText(title)', 'color:color,thumbnailURL:thumbnailURL})=>{_this.video.src=thumbnailURL;_this.video.alt=title;_this.layers.title.setText(title)', '详情绑定当前原图');
-  out = replace(out, 'let camera=await _this.get("WorkDetail/camera");', '_this.imageButton=document.createElement("button");_this.imageButton.textContent="VIEW FULL IMAGE ↗";_this.imageButton.setAttribute("aria-label","View the full image");_this.imageButton.style.cssText="position:fixed;right:24px;bottom:28px;z-index:1000;background:#0b1214cc;border:1px solid #ffffff55;color:#eee;padding:12px 16px;font:11px nbarchitekt,monospace;letter-spacing:.06em;cursor:pointer";_this.imageButton.hidden=true;_this.imageButton.onclick=_this.onFullscreenClick;document.body.appendChild(_this.imageButton);_this.bind("Router/state",(route=>{_this.imageButton.hidden=!route.includes("work/")}));let camera=await _this.get("WorkDetail/camera");', '以可访问的原图按钮替代隐藏调试网格');
+  out = replace(out, 'let camera=await _this.get("WorkDetail/camera");', '_this.imageButton=document.createElement("button");_this.imageButton.textContent="VIEW FULL IMAGE ↗";_this.imageButton.setAttribute("aria-label","View the full image");_this.imageButton.className="rhine-image-button";_this.imageButton.hidden=true;_this.imageButton.onclick=_this.onFullscreenClick;document.body.appendChild(_this.imageButton);_this.bind("Router/state",(route=>{_this.imageButton.hidden=!route.includes("work/")}));let camera=await _this.get("WorkDetail/camera");', '以可访问的原图按钮替代隐藏调试网格');
   // 详情页链接按目标命名，而不是统一的 Open Link。
   const linkLabel = url => url.startsWith('mailto:') ? 'Send Email' : url === github ? 'GitHub Profile' : url.startsWith(`${github}/`) ? 'View on GitHub'
     : url === links.blog ? 'Read the Blog' : url === links.music ? 'Listen on NetEase' : url === links.steam ? 'Steam Profile' : 'Open Link';
@@ -127,7 +128,8 @@ await adaptModule('ChatDOM', input => {
     ['"-> XR / VR / AI","XR"', '"-> hardware","Hardware"'],
     ['"-> multiplayer","Multiplayer"', '"-> study","Study"'],
     ['"-> games","Game"', '"-> links","Links"'],
-    ['"Ask me anything..."', '"Search projects..."']
+    ['"Ask me anything..."', '"Search projects..."'],
+    ['"What are you looking for?"', '"Browse projects & links"']
   ]) out = replace(out, a, b, `作品筛选 ${a}`);
   const disclaimerStart = out.indexOf('_this.bind("showDisclaimer"');
   const disclaimerEnd = out.indexOf('_this.listen("Global/loadFinished"', disclaimerStart);
@@ -149,7 +151,8 @@ app = app.replaceAll('Get more information about Active Theory, the agency that 
   .replaceAll('Please use the provided email to reach out.', 'Use the email link to get in touch.');
 app = replace(app, '_workPages.refresh([..._workData.slice(0,14).shuffle()])', '_workPages.refresh(_workData.slice(0,14))', '十四展品固定叙事顺序');
 app = replace(app, '_workData.filter((element=>element.tags.includes(tag))).shuffle().slice(0,14)', '_workData.filter((element=>element.tags.includes(tag))).slice(0,14)', '筛选保留档案顺序');
-app = replace(app, '${new Date(data.completionDate).getFullYear()}\\n${data.clientName}', '${String(data.priority).padStart(2,"0")} / 14\\n${data.clientName}', '档案编号替代制作年份');
+app = replace(app, '_workPages.remove(_workPages[_workPages.length-1]),_workPages.insertAtIdx(0,project)', '_workPages.refresh([project,..._workPages.toJSON().slice(0,-1)])', '单项筛选后搜索时原子更新作品列表');
+app = replace(app, '${new Date(data.completionDate).getFullYear()}\\n${data.clientName}\\n${data.tags.toLowerCase()}', '${data.clientName}', '详情元信息只保留分类和技术栈');
 await adaptModule('NavUI', input => {
   let out = replace(replace(input, 'text:"Work"', 'text:"Explore"', '作品导航文案'), 'text:"Contact"', 'text:"About"', '关于导航文案');
   out = replace(out, '_this.work.wrapper.x=_this.bg.x+80', '_this.work.wrapper.x=_this.bg.x+.22*_this.bg.width', '导航左侧文字留白');
@@ -160,23 +163,54 @@ await adaptModule('NavUI', input => {
 });
 app = replace(app, 'let link=_this.params.text.toLowerCase();', 'let link=_this.params.text.toLowerCase();if(link==="about")link="contact";if(link==="explore")link="work";', '关于按钮保留原路由');
 app = replace(app, '_room&&_room.updateUserData(_this.data)', '_room?.updateUserData?.(_this.data)', '初始化房间尚未可写时保留本地播放器状态');
+app = replace(app, '_this.scroll.scrollTo(_this.work,1e3)', '_this.scroll.scrollTo(_this.work.start+Stage.height,1e3)', 'Explore 到达作品区可阅读位置');
+app = replace(app, 'assets/images/lab.gif', 'assets/rhine/07.png', '实验室初始纹理使用当前场景插画');
+app = replace(app, 'assets/images/pbr/damaged_road_normal.jpg', 'assets/images/pbr/damaged_road_normal.png', '修正已有法线贴图的扩展名');
+app = replace(app, 'server:"wss://s.dreamwave.network/ws",roomKey:"atv6",playerClass:"TubePlayer",maxInRoom:3', 'server:"",roomKey:"atv6",playerClass:"TubePlayer",maxInRoom:-1', '个人主页的光带交互使用本地玩家');
+
+// 保留检索面板与场景导航，将查询放在浏览器内完成，供静态 Pages 使用。
+const assistantStart = app.indexOf('InteractAI.Class((function Assistant(');
+const assistantEnd = app.indexOf(',InteractAI.Class((function GPT(', assistantStart);
+assert.ok(assistantStart >= 0 && assistantEnd > assistantStart);
+app = replace(app, app.slice(assistantStart, assistantEnd), `InteractAI.Class(function Assistant() {
+  Inherit(this, Component);
+  const search = import('/assets/project-search.js');
+  AppState.set('InteractAIAssistant/isThinking', false);
+  this.once = async function(message) {
+    AppState.set('InteractAIAssistant/isThinking', true);
+    try {
+      const { findProject } = await search;
+      const project = findProject(window.CMS_DATA.projects, message);
+      if (!project) return 'No matching project. Try a project name or code, music, hardware.';
+      AppState.set('CMSData/slug', { slug: project.perma, message: project.body }, true);
+      return project.body;
+    } catch (error) {
+      console.error('Project search failed', error);
+      return 'Search is unavailable. Use the category links to browse.';
+    } finally {
+      AppState.set('InteractAIAssistant/isThinking', false);
+    }
+  };
+})`, '浏览器内项目检索');
+await write('assets/project-search.js', await fs.readFile(path.join(root, 'src/project-search.mjs')));
 await write('assets/js/app.1780406240914.js', app);
 
 let html = await fs.readFile(path.join(reference, 'index.html'), 'utf8');
 const sourceDescription = 'Founded in 2012. We blend story, art & technology as an in-house team of passionate makers. Our industry-leading web toolset consistently delivers award-winning work through quality & performance. ';
 html = html.replaceAll('Active Theory · Creative Digital Experiences', siteName).replaceAll(sourceDescription, slogan)
-  .replaceAll('https://storage.googleapis.com/activetheory-v6.appspot.com/media/social.jpg', '/assets/daily/hero.jpg')
-  .replaceAll('https://activetheory.net', '/').replaceAll('content="Active Theory"', `content="${brand}"`)
+  .replaceAll('https://storage.googleapis.com/activetheory-v6.appspot.com/media/social.jpg', `${siteURL}/assets/daily/hero.jpg`)
+  .replaceAll('https://activetheory.net', siteURL).replaceAll('content="Active Theory"', `content="${brand}"`)
   .replace(/\s*<script>\s*window\.dataLayer[\s\S]*?<\/script>/, '');
 const bootBridge = await buildBoot(root, write);
 html = html.replace('<head>', '<head>' + bootBridge);
 await write('index.html', html);
+await write('unsupported.html', staticHome());
 
 const uil = JSON.parse(await fs.readFile(path.join(frozen, 'uil.1780406240914.json'), 'utf8'));
 const changedUIL = [];
 function set(key, value) { assert.ok(key in uil, key); changedUIL.push({ key, before: uil[key], after: value }); uil[key] = value; }
 set('INPUT_Element_3_About_text3d_text', 'Rhine\nLab');
-set('INPUT_Element_4_About_text3d_text', 'Qing-UU / Personal Node\n\nComputer science at JUFE. Code, piano, music and hardware projects.');
+set('INPUT_Element_4_About_text3d_text', 'Qing-UU / Personal Node\n\nComputer science at JUFE.\nCode, piano and hardware.');
 set('INPUT_Element_5_WorkDetailContent_text3d_text', 'MCMer');
 set('INPUT_Element_8_WorkDetailContent_text3d_text', '01 / 14\nQing-UU\nPERSONAL NODE');
 set('MESH_Element_22_CleanRoomscale', [.66, .33, 1]);

@@ -6,6 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { WebSocketServer } from 'ws';
+import { findProject } from '../src/project-search.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const publicDir = path.join(root, 'public');
@@ -40,18 +41,10 @@ async function assistant(req, res, action) {
   if (action === 'createMessage') { thread.query = data.content || ''; return json(res, { message: thread.query }); }
   if (action === 'createRun') {
     const projects = JSON.parse(await fsp.readFile(path.join(publicDir, 'remote/cms/projects-dev.json'), 'utf8'));
-    const translations = [['钢琴', 'piano'], ['音乐', 'music'], ['旋律', 'melody'], ['标注', 'annotator'], ['建模', 'mcmer'], ['对话', 'dialograph'], ['决策', 'decision arena'], ['硬件', 'hardware'], ['博客', 'blog'], ['邮箱', 'get in touch'], ['计算机', 'computer science']];
-    let query = thread.query.toLowerCase();
-    translations.forEach(([a, b]) => { query = query.replaceAll(a, b); });
-    const terms = query.match(/[a-z0-9]+/g)?.filter(x => x.length > 2 && !['the', 'and', 'for', 'looking', 'show', 'what', 'are', 'you', 'some', 'projects', 'can', 'please'].includes(x)) || [];
-    const ranked = projects.map(project => {
-      const fields = `${project.name} ${project.clientName} ${project.tags} ${project.description}`.toLowerCase();
-      return { project, score: terms.reduce((n, term) => n + (fields.includes(term) ? (project.name.toLowerCase().includes(term) ? 5 : 1) : 0), 0) };
-    }).sort((a, b) => b.score - a.score || a.project.priority - b.project.priority);
-    thread.project = ranked[0].project;
-    return json(res, { slug: thread.project.slug });
+    thread.project = findProject(projects, thread.query);
+    return json(res, { slug: thread.project?.slug || null });
   }
-  if (action === 'listMessage') return json(res, { text: thread.project?.description || 'Explore our selected work.' });
+  if (action === 'listMessage') return json(res, { text: thread.project?.description || 'No matching project. Try a project name or code, music, hardware.' });
   return json(res, { error: 'Unsupported operation' }, 404);
 }
 

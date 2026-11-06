@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:cloudflare": "node scripts/build-cloudflare.mjs",
     "dev": "node scripts/server.mjs",
     "start": "node scripts/server.mjs",
     "check": "node scripts/check.mjs",
@@ -28,6 +29,6 @@
   "description": "Qing-UU personal homepage with WebGL scenes and project links",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reverieach/rhine-lab-art.git"
+    "url": "https://github.com/qinghuan-yu/profile.git"
   }
 }

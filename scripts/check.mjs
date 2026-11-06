@@ -40,6 +40,11 @@ assert.throws(() => verifyMotionFields(invalidUIL));
 const preservedFields = verifyMotionFields(brandedUIL);
 assert.equal(sha(await fs.readFile(path.join(publicDir, 'assets/shaders/compiled.vs'))), report.shaders.sha256);
 const projects = JSON.parse(await fs.readFile(path.join(publicDir, 'remote/cms/projects-dev.json')));
+const { findProject } = await import('../src/project-search.mjs');
+assert.equal(findProject(projects, '建模').slug, 'mcmer');
+assert.equal(findProject(projects, 'Pianalysis').slug, 'pianalysis');
+assert.equal(findProject(projects, 'qzxvplm'), null);
+assert.equal(findProject(projects, ''), null);
 // The card shader clips UV x < .1 and x > .9. Visible logo pixels must survive.
 const logo = await sharp(path.join(publicDir, 'assets/daily/wordmark.png')).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
 for (let y = 0; y < logo.info.height; y++) for (let x = 0; x < logo.info.width; x++) {
@@ -65,6 +70,9 @@ for (const [index, project] of projects.entries()) {
 for (const filename of ['scripts/build.mjs', 'scripts/server.mjs', 'public/assets/js/app.1780406240914.js']) execFileSync(process.execPath, ['--check', path.join(root, filename)]);
 const base = process.env.PREVIEW_URL || 'http://localhost:4199';
 assert.equal((await fetch(base + '/work/mcmer')).status, 200);
+for (const resource of ['/unsupported.html', '/assets/project-search.js', '/assets/rhine/07.png', '/assets/images/pbr/damaged_road_normal.png']) {
+  assert.equal((await fetch(base + resource)).status, 200, resource);
+}
 const response = await fetch(base + '/assets/geometry/daily/monogram-home.json'); assert.equal(response.status, 200);
 assert.ok((await response.json()).position.length > 1000);
 const referenceShader = await fetch(base + '/assets/shaders/compiled.vs'); assert.equal(sha(Buffer.from(await referenceShader.arrayBuffer())), report.shaders.sha256);

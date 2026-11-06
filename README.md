@@ -6,7 +6,7 @@
 
 前六项为 MCMer、Dialograph、Pianalysis、Decision Arena、旋律标注工具、ESP32 GIF Player。其后为个人简介、教育经历、音乐、博客、GitHub、Steam 和邮件联系。
 
-页面沿用英文排版。资料来自原个人主页和公开 GitHub 项目；没有技能自评分数、虚构工作经历或宣传性介绍。
+页面沿用英文排版。资料来自原个人主页和公开 GitHub 项目。
 
 ## 本地运行
 
@@ -20,7 +20,13 @@ npm run build
 npm run dev
 ```
 
-打开 http://localhost:4199/ 。修改源码后重新构建并刷新。服务包含本地项目搜索、深链接和 WebSocket，完整部署需要 Node 服务。
+打开 http://localhost:4199/ 。修改源码后重新构建并刷新。项目搜索直接在浏览器内完成，支持中文关键词和英文项目名。深链接可直接打开项目详情。WebGL 检测未通过的设备会进入简洁版作品列表。
+
+## Cloudflare Pages
+
+生产站点为 https://info.reliarc.com ，对应 Pages 项目 `profile-git` 和 GitHub 仓库 `qinghuan-yu/profile` 的 `codex/rhine-homepage` 分支。
+
+构建命令为 `npm run build:cloudflare`，输出目录为 `out`，Node.js 版本为 24。构建时对超过 Pages 单文件上限的模型做 gzip 传输压缩，并核验解压后字节一致。浏览器搜索、详情、图片查看和光带交互均可通过静态 Pages 运行。
 
 ## 编辑
 
@@ -28,6 +34,9 @@ npm run dev
 - `scripts/build.mjs`：文字、导航、联系方式及 CMS 数据的适配。
 - `scripts/build-boot.mjs`：开场名称的适配，保留上游动画代码。
 - `src/boot/entry.js`、`boot.css`：开场界面和页面身份标识。
+- `src/project-search.mjs`：浏览器和本地服务共用的项目检索规则。
+- `src/static-home.mjs`：低配置设备的作品与链接入口。
+- `scripts/build-cloudflare.mjs`：Pages 发布目录和传输压缩配置。
 
 启动服务后，`npm run check` 检查原动效模块、2577 项参数、插画哈希、深链接和本地搜索。`npm test` 为上游完整浏览器检查。
 

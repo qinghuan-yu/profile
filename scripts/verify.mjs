@@ -27,12 +27,14 @@ async function inspect(mobile) {
   const url = base;
   const context = await browser.newContext(mobile ? { ...devices['Pixel 7'], viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 } : { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
   const page = await context.newPage();
-  const errors = [], graphicsErrors = [], missing = [], external = [], videoRequests = [];
+  const errors = [], graphicsErrors = [], missing = [], external = [], videoRequests = [], sockets = [], searchRequests = [];
   page.on('pageerror', e => errors.push(e.message));
   page.on('console', e => { if (/GL_INVALID_|OUT_OF_MEMORY|WebGL: too many errors/.test(e.text())) graphicsErrors.push(e.text()); });
   page.on('response', r => { if (r.status() >= 400) missing.push(r.url()); });
+  page.on('websocket', socket => sockets.push(socket.url()));
   await context.route('**/*', route => {
     const request = route.request().url();
+    if (request.includes('/api/assistant/')) searchRequests.push(request);
     if (/\.mp4(?:\?|$)|\.webm(?:\?|$)/.test(request)) videoRequests.push(request);
     if (!request.startsWith(url) && !request.startsWith('data:') && !request.startsWith('blob:')) { external.push(request); return route.abort(); }
     return route.continue();
@@ -118,10 +120,16 @@ async function inspect(mobile) {
       await page.waitForFunction(() => AppState.get('Work/project')?.perma === 'pianalysis', null, { timeout: 15000 });
       await page.waitForFunction(() => !AppState.get('InteractAIAssistant/isThinking')); await page.waitForTimeout(3000);
       await shot('search-detail'); item.interactions.search = 'pianalysis';
+      await input.fill('qzxvplm'); await input.press('Enter');
+      await page.waitForFunction(() => document.querySelector('.ChatDOM .messages')?.textContent.includes('No matching project.'));
+      await page.waitForFunction(() => !AppState.get('InteractAIAssistant/isThinking') && !document.querySelector('.ChatDOM textarea').disabled);
+      item.interactions.searchNoMatch = true;
       assert.equal(await page.locator('video').count(), 0); assert.equal(videoRequests.length, 0);
     }
     assert.equal(errors.length, 0, JSON.stringify(errors)); assert.equal(graphicsErrors.length, 0, JSON.stringify(graphicsErrors)); assert.equal(external.length, 0, JSON.stringify(external));
-    assert.ok(missing.every(url => /\/assets\/images\/(lab\.gif|pbr\/damaged_road_normal\.jpg)$/.test(url)), JSON.stringify(missing));
+    assert.equal(missing.length, 0, JSON.stringify(missing));
+    assert.equal(sockets.length, 0, JSON.stringify(sockets));
+    assert.equal(searchRequests.length, 0, JSON.stringify(searchRequests));
     item.passed = true;
   } catch (error) {
     item.failure = error.message;
