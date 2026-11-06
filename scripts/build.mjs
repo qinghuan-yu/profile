@@ -131,7 +131,9 @@ await adaptModule('ChatDOM', input => {
     ['"Ask me anything..."', '"Search projects..."'],
     ['"What are you looking for?"', '"Browse projects & links"']
   ]) out = replace(out, a, b, `作品筛选 ${a}`);
-  out = replace(out, 'let response=await _this.assistant.once(formText);', 'let response=await _this.assistant.once(formText);clearTween(_this.input);clearTween(_this.flashing);_this.flashing.css({opacity:0});', '本地检索完成后取消延迟加载动画');
+  out = replace(out, 'tween(_this.flashing,{progress:1},600,"easeOutSine",800).onUpdate((_=>{_this.flashing.css({opacity:_this.flashing.progress})}));', '_this.flashing.css({opacity:0});', '即时检索取消延迟出现的等待动画');
+  out = replace(out, '_this.flashing.css({opacity:1-_this.input.progress})', '_this.flashing.css({opacity:0})', '输入恢复时保持等待指示关闭');
+  out = replace(out, 'let response=await _this.assistant.once(formText);', 'let response=await _this.assistant.once(formText);clearTween(_this.input);', '检索完成后终止输入隐藏动画');
   const disclaimerStart = out.indexOf('_this.bind("showDisclaimer"');
   const disclaimerEnd = out.indexOf('_this.listen("Global/loadFinished"', disclaimerStart);
   assert.ok(disclaimerStart >= 0 && disclaimerEnd > disclaimerStart);
