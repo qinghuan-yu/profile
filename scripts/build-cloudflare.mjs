@@ -4,6 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { gzipSync, gunzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import { createAssetsWorker } from '../src/pages-assets.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'out');
@@ -13,8 +14,7 @@ await fs.rm(output, { recursive: true, force: true });
 await fs.cp(path.join(root, 'public'), output, { recursive: true });
 
 // Pages 的单文件上限为 25 MiB。大模型只做无损传输压缩，解压后的字节完全一致。
-const redirects = [];
-const headers = [];
+const compressedAssets = {};
 const limit = 25 * 1024 * 1024;
 for (const entry of await fs.readdir(output, { recursive: true, withFileTypes: true })) {
   if (!entry.isFile()) continue;
@@ -29,13 +29,12 @@ for (const entry of await fs.readdir(output, { recursive: true, withFileTypes: t
   await fs.writeFile(filename + '.gz', compressed);
   await fs.unlink(filename);
   const url = '/' + path.relative(output, filename).split(path.sep).join('/');
-  redirects.push(`${url} ${url}.gz 200`);
-  // Pages 的重写响应按原请求 URL 匹配响应头，同时覆盖直接访问压缩文件的情况。
-  for (const pathname of [url, url + '.gz']) {
-    headers.push(`${pathname}\n  Content-Type: application/json\n  Content-Encoding: gzip\n  Cache-Control: public, max-age=0, must-revalidate, no-transform`);
-  }
+  compressedAssets[url] = url + '.gz';
   console.log(`${url}: ${stat.size} → ${compressed.length} bytes`);
 }
-await fs.writeFile(path.join(output, '_redirects'), redirects.join('\n') + '\n', 'utf8');
-await fs.writeFile(path.join(output, '_headers'), headers.join('\n\n') + '\n', 'utf8');
+if (Object.keys(compressedAssets).length) {
+  const worker = `${createAssetsWorker.toString()}\nexport default createAssetsWorker(${JSON.stringify(compressedAssets)});\n`;
+  await fs.writeFile(path.join(output, '_worker.js'), worker, 'utf8');
+  await fs.writeFile(path.join(output, '_routes.json'), JSON.stringify({ version: 1, include: Object.keys(compressedAssets), exclude: [] }), 'utf8');
+}
 console.log('Cloudflare Pages 构建完成，输出目录 out。');

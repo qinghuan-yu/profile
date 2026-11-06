@@ -120,6 +120,7 @@ async function inspect(mobile) {
       await page.waitForFunction(() => AppState.get('Work/project')?.perma === 'pianalysis', null, { timeout: 15000 });
       await page.waitForFunction(() => !AppState.get('InteractAIAssistant/isThinking')); await page.waitForTimeout(3000);
       await shot('search-detail'); item.interactions.search = 'pianalysis';
+      assert.ok(await page.locator('.ChatDOM .flashing').evaluate(element => Number(getComputedStyle(element).opacity) < .01), '检索结束后加载指示应消失');
       await input.fill('qzxvplm'); await input.press('Enter');
       await page.waitForFunction(() => document.querySelector('.ChatDOM .messages')?.textContent.includes('No matching project.'));
       await page.waitForFunction(() => !AppState.get('InteractAIAssistant/isThinking') && !document.querySelector('.ChatDOM textarea').disabled);

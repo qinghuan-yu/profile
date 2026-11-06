@@ -26,7 +26,7 @@ npm run dev
 
 生产站点为 https://info.reliarc.com ，对应 Pages 项目 `profile-git` 和 GitHub 仓库 `qinghuan-yu/profile` 的 `codex/rhine-homepage` 分支。
 
-构建命令为 `npm run build:cloudflare`，输出目录为 `out`，Node.js 版本为 24。构建时对超过 Pages 单文件上限的模型做 gzip 传输压缩，并核验解压后字节一致。浏览器搜索、详情、图片查看和光带交互均可通过静态 Pages 运行。
+构建命令为 `npm run build:cloudflare`，输出目录为 `out`，Node.js 版本为 24。构建时对超过 Pages 单文件上限的模型做 gzip 传输压缩，并核验解压后字节一致。Pages 函数仅处理该模型路径，使用手动编码流式返回压缩资源。搜索、详情、图片查看和光带交互运行在浏览器内。
 
 ## 编辑
 
