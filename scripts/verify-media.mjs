@@ -14,19 +14,18 @@ try {
   for (const fraction of [.08, .32, .64, .88]) {
     await page.evaluate(fraction => { const s = AppState.get('ViewController/scroll'), w = s.views[2]; s.scrollTo(w.start + (w.end - w.start) * fraction, 0); }, fraction);
     // 软件 OpenGL 的帧率与纹理上传较慢，按真实目标卡片的淡入状态等待。
-    await page.waitForFunction(fraction => {
+    const stateHandle = await page.waitForFunction(fraction => {
       const scroll = AppState.get('ViewController/scroll'), work = scroll.views[2];
       if (Math.abs(scroll.renderManager.controller.scroll - (work.start + (work.end - work.start) * fraction)) > 2) return false;
       const items = work.layers.items.viewState.views, src = AppState.get('WorkItems/videoURL');
       const blend = view => view.group.children.find(mesh => mesh.shader?.uniforms?.uVideoBlend)?.shader.uniforms.uVideoBlend.value ?? 0;
       const matching = items.filter(view => view.data.videoURL === src);
-      return matching.length === 1 && blend(matching[0]) > .9 && items.filter(view => blend(view) > .9).length === 1;
+      if (matching.length !== 1 || blend(matching[0]) <= .9 || items.filter(view => blend(view) > .9).length !== 1) return false;
+      return { src, matching: matching.map(view => view.data.title), blends: items.map(view => ({ title: view.data.title, blend: blend(view) })) };
     }, fraction, { timeout: 30000 });
-    const state = await page.evaluate(() => {
-      const items = AppState.get('ViewController/scroll').views[2].layers.items.viewState.views;
-      const src = AppState.get('WorkItems/videoURL');
-      return { src, matching: items.filter(view => view.data.videoURL === src).map(view => view.data.title), blends: items.map(view => ({ title: view.data.title, blend: view.group.children.find(mesh => mesh.shader?.uniforms?.uVideoBlend)?.shader.uniforms.uVideoBlend.value })) };
-    });
+    // 使用满足条件时的同一帧快照，避免后续读取落入下一张封面的淡出过程。
+    const state = await stateHandle.jsonValue();
+    await stateHandle.dispose();
     report.states.push({ fraction, ...state });
     assert.equal(state.matching.length, 1);
     assert.equal(state.blends.filter(item => item.blend > .9).length, 1);
