@@ -1,12 +1,12 @@
-# Qing Yu 作品集改造
+# Qing-UU 作品集改造
 
 ## 目标与范围
 
-将默认入口和个人站改为 Qing Yu 的作品集，沿用现有图版、地图、羽兽和双手交互。内容取自 `qinghuan-yu` 的公开 GitHub 主页与项目 README，使用简短的中文说明、真实项目链接和技术标签。原图录作为独立入口保留。本次在当前项目中实现和预览。
+将默认入口和个人站改为 Qing-UU 的作品集，沿用现有图版、地图、羽兽和双手交互。内容取自 `qinghuan-yu` 的公开 GitHub 主页与项目 README，使用简短的中文说明、真实项目链接和技术标签。原图录作为独立入口保留。本次在当前项目中实现和预览。
 
 ## 已确认内容
 
-- 展示名：Qing Yu；身份：计算机科学本科生。
+- 展示名：Qing-UU；身份：计算机科学本科生。
 - 重点作品：MCMer、Dialograph、Pianalysis。
 - 补充作品：Decision Arena、A-Melody-Annotator、ESP32 GIF Player；日记日历仅保留次要链接。
 - 外部入口：GitHub 与 blog.reliarc.com。

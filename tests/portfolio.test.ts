@@ -4,20 +4,20 @@ import { homePlate, personnelPlate } from '../src/plates.ts';
 import { operators } from '../src/data.ts';
 import { birdPlate } from '../src/graphics.ts';
 
-const identity = { name:'Qing Yu', subtitle:'QINGHUAN-YU', topics:['AI SYSTEMS','MUSIC','SOFTWARE'] };
+const identity = { name:'Qing-UU', subtitle:'QINGHUAN-YU', topics:['AI SYSTEMS','MUSIC','SOFTWARE'] };
 const unrelated = /LATERANO|RHODES ISLAND|SIDESTORY|SANCTUM|1099|STARS|FAITH|ORDER|FREEDOM/;
 
 test('portfolio identity replaces festival text in the home plate',()=>{
- const svg=homePlate(undefined,'QY','QING YU / AI SYSTEMS / MUSIC / ','svg',identity);
- assert.match(svg,/Qing Yu/);
+ const svg=homePlate(undefined,'QY','Qing-UU / AI SYSTEMS / MUSIC / ','svg',identity);
+ assert.match(svg,/Qing-UU/);
  assert.match(svg,/AI SYSTEMS/);
  assert.doesNotMatch(svg,unrelated);
 });
 
 test('a profile plate uses the supplied identity without game metadata or ratings',()=>{
- const person={...operators[0],name:'Qing Yu',english:'Qing Yu',role:'开发',branch:'计算机科学',tags:['AI','MIDI','WEB']};
+ const person={...operators[0],name:'Qing-UU',english:'Qing-UU',role:'开发',branch:'计算机科学',tags:['AI','MIDI','WEB']};
  const svg=personnelPlate(person,0,undefined,false,'svg',[],identity);
- assert.match(svg,/Qing Yu/);
+ assert.match(svg,/Qing-UU/);
  assert.match(svg,/QINGHUAN-YU/);
  assert.doesNotMatch(svg,unrelated);
  assert.doesNotMatch(svg,/★/);
