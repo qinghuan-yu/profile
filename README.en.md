@@ -1,136 +1,66 @@
 [中文](./README.md) | **English**
 
-# RAINMORIME Template
+# Qing-UU // HUD Homepage Archive
 
-A post-apocalyptic, sci-fi HUD portfolio + blog template.
+**Branch: `codex/homepage-before-20261031` · Status: archived; no further feature development.**
 
-> **[Live Demo →](https://rainmorime.com)**
+This branch preserves the Next.js homepage used before the 2026-10-31 replacement, based on commit `35d7e61834bfcc8f61b6f8d0773bb561c8244871`. It uses RAINMORIME's sci-fi HUD design, with a loading sequence, multi-column navigation, project and experience pages, contact details, and a music player.
 
-![Preview](./docs/preview.png)
+[HUD archive preview](https://codex-homepage-before-202610.profile-git-brh.pages.dev) · [Current production site](https://info.reliarc.com)
 
-## Getting Started
+The production website is the Rhine Lab version maintained on [main](https://github.com/qinghuan-yu/profile/tree/main). This branch is retained for reference and recovery.
 
-```bash
-git clone https://github.com/RainMorime/rainmorime-template.git
-cd rainmorime-template
-npm install
-cp .env.example .env.local
+## Contents and stack
+
+The archived project list contains GIF-PLAYER, VUE-PIANO, Pianalysis, Minimalist-Calendar, MCMer, and Dialograph.
+
+Stack: Next.js 14, React 18, TypeScript, SCSS, GSAP, and Three.js. The local Node server provides SSE visitor statistics. The Cloudflare Pages build uses static export and does not run that Node server.
+
+## Local use
+
+Check out this branch, then run:
+
+```sh
+npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. You'll see the loading sequence, then the five-column navigation. Now replace the placeholder content with your own.
+Open [localhost:3000](http://localhost:3000). The `PORT` value in `.env.local` can override the default port.
 
-## Make It Yours
+For a local production build:
 
-### Step 1: Basic Info
-
-These are the things you **must** change — otherwise your site will say "YOUR_SITE" and "your-email@example.com":
-
-| What to change | Where | What to put |
-|----------------|-------|-------------|
-| Site name | `components/layout/GlobalHud.tsx` | Search `YOUR_SITE`, replace with your name |
-| Loading title | `components/shared/LoadingScreen/LogoTitle.tsx` | Same as above |
-| Email | `components/sections/ContactSection.tsx` | Search `your-email@example.com` |
-| Email (copy) | `pages/content.tsx` | Search `your-email@example.com` |
-| Copyright | `components/sections/AboutSection.tsx` | Search `Your Name` |
-| Avatar | `public/avatar.svg` | Replace with your own image |
-| Typing tagline | `hooks/useTypingEffect.ts` | Edit `englishText` and `chineseText` |
-
-### Step 2: Fill In Content
-
-The `data/` directory holds all your content as plain TypeScript arrays — just follow the examples:
-
-| File | Content |
-|------|---------|
-| `data/projects.ts` | Your projects and portfolio items |
-| `data/experience.ts` | Education and work timeline |
-| `data/life.ts` | Games, travel, hobbies |
-| `data/skills.ts` | Skill tree |
-| `data/friendLinks.ts` | Friend links |
-
-### Step 3: Write Blog Posts
-
-Create `.mdx` files in `content/blog/`:
-
-```markdown
----
-title: "My First Post"
-date: "2025-01-01"
-excerpt: "A short description."
-tags: ["hello", "world"]
----
-
-Write in Markdown. Supports syntax highlighting, images, and custom components.
-```
-
-### Step 4: Optional Configuration
-
-<details>
-<summary><b>Music Player</b></summary>
-
-Edit the `playlist` array at the top of `components/interactive/MusicPlayer.tsx`. Place audio files in `public/music/`. Supports `.mp3` and external URLs.
-
-</details>
-
-<details>
-<summary><b>Colors</b></summary>
-
-The primary color is `--ark-highlight-green: #b2f2bb` in `styles/globals.scss`. Change this one variable to re-theme the entire site.
-
-The inverted (power-off) palette uses `--ark-inverted-*` variables in the same file.
-
-</details>
-
-<details>
-<summary><b>Environment Variables</b></summary>
-
-```env
-PORT=3000                                    # Server port, default 3000
-NEXT_PUBLIC_SITE_URL=https://your-domain.com # For sitemap and RSS
-```
-
-</details>
-
-<details>
-<summary><b>Deployment</b></summary>
-
-```bash
+```sh
 npm run build
-npm start            # or with PM2:
-pm2 start server.js --name my-site
+npm start
 ```
 
-Includes built-in SSE real-time stats (visitor count + online users + uptime) with no external database. Stats persist in `.stats.json` at the project root.
+These are the commands preserved with the archive. This documentation update does not upgrade dependencies or claim renewed compatibility testing.
 
-</details>
+## File guide
 
-## Tech Stack
+| Path | Contents |
+| --- | --- |
+| `data/projects.ts` | Project descriptions, links, and details |
+| `data/experience.ts` | Education and experience |
+| `data/skills.ts` | Skills |
+| `pages/` | Page routes |
+| `components/layout/` | Navigation, HUD, and layout |
+| `components/interactive/` | Music player, lightbox, lever, and cursor |
+| `styles/` | Styles and animation |
+| `server.js` | Local Node server and SSE statistics |
 
-Next.js 14 · TypeScript · SCSS Modules · CSS @keyframes · Framer Motion · GSAP · Three.js · MDX · Node.js SSE
+## Cloudflare Pages
 
-## Project Structure
+This branch is a historical preview branch in the `profile-git` Pages project. Its preserved build command is `npm run build:cloudflare`, with output in `out`. The production domain `info.reliarc.com` follows `main`.
 
-```
-├── pages/              # Page routes
-├── components/
-│   ├── layout/         # Layout (nav, HUD, left panel)
-│   ├── sections/       # Content (Works / Experience / Life / Contact / About)
-│   ├── detail/         # Detail views
-│   ├── effects/        # Visual effects (WebGL, noise, 3D)
-│   ├── interactive/    # Interactive (music player, lightbox, lever)
-│   └── shared/         # Reusable components
-├── hooks/              # Custom hooks
-├── contexts/           # Global state
-├── data/               # ← Your content here
-├── content/blog/       # ← Your blog posts here
-├── styles/             # SCSS stylesheets
-└── server.js           # Custom server (SSE stats)
-```
+## Related branches
 
-## License
+- [main](https://github.com/qinghuan-yu/profile/tree/main): maintained Rhine Lab homepage and production branch.
+- [codex/homepage-migration](https://github.com/qinghuan-yu/profile/tree/codex/homepage-migration): archived Vite interactive portfolio.
+- [codex/rhine-homepage](https://github.com/qinghuan-yu/profile/tree/codex/rhine-homepage): Rhine version before migration to main.
 
-[MIT](./LICENSE) — Free to use, just keep the attribution.
+## Credits and license
 
----
+Original template design and development by [RainMorime](https://github.com/RainMorime), from [rainmorime-template](https://github.com/RainMorime/rainmorime-template). Personal content was adapted by Qing-UU.
 
-Design & development by [RainMorime](https://github.com/RainMorime).
+The upstream [MIT license](./LICENSE) is retained in this branch. Keep the original attribution; third-party assets remain subject to their respective rights.
