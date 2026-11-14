@@ -1,18 +1,34 @@
 {
-  "name": "portfolio-site",
-  "private": true,
+  "name": "qing-uu-personal-node",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build && node scripts/build-offline.mjs",
-    "build:cloudflare": "tsc --noEmit && vite build --outDir out",
-    "build:offline": "node scripts/build-offline.mjs",
-    "preview": "vite preview --host 127.0.0.1",
-    "start": "node scripts/serve.mjs",
-    "test": "node --experimental-strip-types --test tests/*.test.ts",
-    "verify": "node scripts/verify-release.mjs"
+    "build": "node scripts/build.mjs",
+    "build:cloudflare": "node scripts/build-cloudflare.mjs",
+    "dev": "node scripts/server.mjs",
+    "start": "node scripts/server.mjs",
+    "check": "node scripts/check.mjs",
+    "verify": "node scripts/verify.mjs",
+    "verify:sync": "node scripts/verify_sync.mjs",
+    "verify:music": "node scripts/verify_music.mjs",
+    "verify:media": "node scripts/verify-media.mjs",
+    "test": "node scripts/test.mjs"
   },
-  "dependencies": { "three": "0.180.0" },
-  "devDependencies": { "@types/three": "0.180.0", "typescript": "~5.9.3", "vite": "^7.1.0" }
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0",
+    "three": "^0.181.2",
+    "sharp": "^0.34.5"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "description": "Qing-UU personal homepage with WebGL scenes and project links",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qinghuan-yu/profile.git"
+  }
 }
